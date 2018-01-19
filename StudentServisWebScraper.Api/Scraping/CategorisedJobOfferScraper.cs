@@ -25,7 +25,7 @@ namespace StudentServisWebScraper.Api.Scraping
             this.Category = category;
         }
 
-        public ICollection<JobOffer> ScrapeJobs(HtmlDocument document)
+        public ICollection<JobOfferInfo> ScrapeJobs(HtmlDocument document)
         {
             HtmlNode link = document.DocumentNode.Descendants()
                 .Where(n => n.Name.Equals("a", StringComparison.OrdinalIgnoreCase) && n.InnerText.Contains(this.Category.ScrapeName))
@@ -33,8 +33,8 @@ namespace StudentServisWebScraper.Api.Scraping
 
             if (link == null)
             {
-                // TODO: log mistake
-                return Array.Empty<JobOffer>();
+                throw new ScrapingException(
+                    $"Cannot locate link for category '{this.Category.ScrapeName}' in the document.");
             }
 
             HtmlWeb web = new HtmlWeb();
@@ -46,11 +46,11 @@ namespace StudentServisWebScraper.Api.Scraping
 
             if (content == null)
             {
-                // TODO: log mistake
-                return Array.Empty<JobOffer>();
+                throw new ScrapingException(
+                    $"Cannot locate content for category '{this.Category.ScrapeName}'.");
             }
 
-            List<JobOffer> foundOffers = new List<JobOffer>();
+            List<JobOfferInfo> foundOffers = new List<JobOfferInfo>();
 
             using (StringReader sr = new StringReader(content.InnerText))
             {
@@ -60,7 +60,8 @@ namespace StudentServisWebScraper.Api.Scraping
                     if (string.IsNullOrWhiteSpace(line)) continue;
                     if (!Regex.IsMatch(line, @"^(\d+ ?\/).*", RegexOptions.Multiline)) continue;
 
-                    foundOffers.Add(new JobOffer(line));
+                    JobOfferInfo joi = new JobOfferInfo(line, this.Category.FriendlyName);
+                    foundOffers.Add(joi);
                 }
             }
 

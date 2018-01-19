@@ -6,6 +6,6 @@ namespace StudentServisWebScraper.Api.Scraping
 {
     public interface IJobOfferScraper
     {
-        ICollection<JobOffer> ScrapeJobs(HtmlDocument document);
+        ICollection<JobOfferInfo> ScrapeJobs(HtmlDocument document);
     }
 }

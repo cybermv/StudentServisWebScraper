@@ -23,22 +23,22 @@ namespace StudentServisWebScraper.Api.Scraping
         /// to scrape most job offers from the page specified in the configuration
         /// </summary>
         /// <returns>All found jobs</returns>
-        public ICollection<JobOffer> Scrape()
+        public ICollection<JobOfferInfo> Scrape()
         {
-            List<JobOffer> foundJobs = new List<JobOffer>();
+            List<JobOfferInfo> foundJobs = new List<JobOfferInfo>();
             HtmlWeb web = new HtmlWeb();
             Uri jobOfferUri = new Uri(this.Configuration.RootUrl + this.Configuration.JobOfferUrl);
             HtmlDocument document = web.Load(jobOfferUri);
 
             IJobOfferScraper generalScraper = new GeneralJobOfferScraper(this.Configuration);
 
-            ICollection<JobOffer> foundGeneralJobs = generalScraper.ScrapeJobs(document);
+            ICollection<JobOfferInfo> foundGeneralJobs = generalScraper.ScrapeJobs(document);
             foundJobs.AddRange(foundGeneralJobs);
 
             foreach (CategoryInfo category in this.Configuration.Categories)
             {
                 IJobOfferScraper categoryScraper = new CategorisedJobOfferScraper(this.Configuration, category);
-                ICollection<JobOffer> foundCategorisedJobs = categoryScraper.ScrapeJobs(document);
+                ICollection<JobOfferInfo> foundCategorisedJobs = categoryScraper.ScrapeJobs(document);
                 foundJobs.AddRange(foundCategorisedJobs);
             }
 

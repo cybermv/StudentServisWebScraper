@@ -17,9 +17,10 @@ namespace StudentServisWebScraper.Api.Scraping
             this.Configuration = configuration;
         }
 
-        public ICollection<JobOffer> ScrapeJobs(HtmlDocument document)
+        public ICollection<JobOfferInfo> ScrapeJobs(HtmlDocument document)
         {
-            return new JobOffer[0];
+            // TODO: implement
+            return new JobOfferInfo[0];
         }
     }
 }

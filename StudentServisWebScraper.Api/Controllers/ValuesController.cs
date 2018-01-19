@@ -20,11 +20,11 @@ namespace StudentServisWebScraper.Api.Controllers
 
         // GET api/values
         [HttpGet]
-        public ICollection<JobOffer> Get()
+        public ICollection<JobOfferInfo> Get()
         {
             JobScraper s = new JobScraper(this.ScraperConfiguration);
 
-            ICollection<JobOffer> jobs = s.Scrape();
+            ICollection<JobOfferInfo> jobs = s.Scrape();
 
             return jobs;
 
