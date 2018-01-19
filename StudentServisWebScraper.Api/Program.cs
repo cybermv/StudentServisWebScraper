@@ -20,6 +20,7 @@ namespace StudentServisWebScraper.Api
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .ConfigureAppConfiguration(cb => cb.AddJsonFile("scraper.json"))
                 .Build();
     }
 }

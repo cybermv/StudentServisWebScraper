@@ -3,17 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StudentServisWebScraper.Api.Scraping;
+using StudentServisWebScraper.Api.Scraping.Models;
 
 namespace StudentServisWebScraper.Api.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        public ScraperConfiguration ScraperConfiguration { get; }
+
+        public ValuesController(ScraperConfiguration config)
+        {
+            this.ScraperConfiguration = config;
+        }
+
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ICollection<JobOffer> Get()
         {
-            return new string[] { "value1", "value2" };
+            JobScraper s = new JobScraper(this.ScraperConfiguration);
+
+            ICollection<JobOffer> jobs = s.Scrape();
+
+            return jobs;
+
+            //return new string[] { "value1", "value2", ScraperConfiguration.RootUrl.ToString(), ScraperConfiguration.JobOfferUrl.ToString() };
         }
 
         // GET api/values/5

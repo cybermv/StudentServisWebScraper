@@ -1,0 +1,46 @@
+﻿{
+  "rootUrl": "http://www.sczg.unizg.hr/",
+  "jobOfferUrl": "/student-servis/ponuda-poslova/",
+  "categories": [
+    {
+      "friendlyName": "Poslovi promidžbe",
+      "scrapeName": "PROMIDŽBA"
+    },
+    {
+      "friendlyName": "Poslovi u turizmu",
+      "scrapeName": "TURIZAM"
+    },
+    {
+      "friendlyName": "Rad u skladištima",
+      "scrapeName": "SKLADIŠTA"
+    },
+    {
+      "friendlyName": "Poslovi u proizvodnji",
+      "scrapeName": "PROIZVODNJA"
+    },
+    {
+      "friendlyName": "Prodaja",
+      "scrapeName": "TRGOVINA / PRODAJA"
+    },
+    {
+      "friendlyName": "Poslovi čišćenja",
+      "scrapeName": "ČIŠĆENJA"
+    },
+    {
+      "friendlyName": "Fizički poslovi",
+      "scrapeName": "FIZIČKI POSLOVI"
+    },
+    {
+      "friendlyName": "Poslovi u ugostiteljstvu",
+      "scrapeName": "UGOSTITELJSTVO"
+    },
+    {
+      "friendlyName": "Razni poslovi",
+      "scrapeName": "RAZNO"
+    },
+    {
+      "friendlyName": "Poslovi u administraciji",
+      "scrapeName": "ADMINISTRATIVNI / UREDSKI POSLOVI"
+    }
+  ]
+}
