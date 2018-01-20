@@ -1,6 +1,7 @@
 ﻿{
   "rootUrl": "http://www.sczg.unizg.hr/",
   "jobOfferUrl": "/student-servis/ponuda-poslova/",
+  "scrapingIntervalMinutes": 5,
   "categories": [
     {
       "friendlyName": "Poslovi promidžbe",

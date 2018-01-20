@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StudentServisWebScraper.Api.Scraping;
 using StudentServisWebScraper.Api.Scraping.Models;
+using StudentServisWebScraper.Api.Data;
 
 namespace StudentServisWebScraper.Api.Controllers
 {
@@ -13,20 +14,26 @@ namespace StudentServisWebScraper.Api.Controllers
     {
         public ScraperConfiguration ScraperConfiguration { get; }
 
-        public ValuesController(ScraperConfiguration config)
+        public JobScraper Scraper { get; }
+
+        public JobOfferParser Parser { get; }
+
+        public ValuesController(ScraperConfiguration config, JobScraper scraper, JobOfferParser parser)
         {
             this.ScraperConfiguration = config;
+            this.Scraper = scraper;
+            this.Parser = parser;
         }
 
         // GET api/values
         [HttpGet]
-        public ICollection<JobOfferInfo> Get()
+        public IEnumerable<JobOffer> Get()
         {
-            JobScraper s = new JobScraper(this.ScraperConfiguration);
+            ICollection<JobOfferInfo> scrapedJobs = this.Scraper.Scrape();
 
-            ICollection<JobOfferInfo> jobs = s.Scrape();
+            IEnumerable<JobOffer> parsedJobs = this.Parser.Parse(scrapedJobs);
 
-            return jobs;
+            return parsedJobs;
 
             //return new string[] { "value1", "value2", ScraperConfiguration.RootUrl.ToString(), ScraperConfiguration.JobOfferUrl.ToString() };
         }

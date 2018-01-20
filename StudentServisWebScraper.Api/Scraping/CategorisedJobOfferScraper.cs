@@ -39,7 +39,17 @@ namespace StudentServisWebScraper.Api.Scraping
 
             HtmlWeb web = new HtmlWeb();
             Uri navigationUri = new Uri(this.Configuration.RootUrl + link.Attributes["href"].Value);
-            HtmlDocument navigatedDocument = web.Load(navigationUri);
+            HtmlDocument navigatedDocument = null;
+
+            try
+            {
+                navigatedDocument = web.Load(navigationUri);
+            }
+            catch
+            {
+                return Array.Empty<JobOfferInfo>();
+            }
+
 
             HtmlNode content = navigatedDocument.DocumentNode
                 .SelectSingleNode(@"//div[@id='mainContent']//div[@class='content']");

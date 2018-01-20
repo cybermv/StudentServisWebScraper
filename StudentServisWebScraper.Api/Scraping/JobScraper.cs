@@ -28,7 +28,16 @@ namespace StudentServisWebScraper.Api.Scraping
             List<JobOfferInfo> foundJobs = new List<JobOfferInfo>();
             HtmlWeb web = new HtmlWeb();
             Uri jobOfferUri = new Uri(this.Configuration.RootUrl + this.Configuration.JobOfferUrl);
-            HtmlDocument document = web.Load(jobOfferUri);
+            HtmlDocument document = null;
+
+            try
+            {
+                document = web.Load(jobOfferUri);
+            }
+            catch
+            {
+                return Array.Empty<JobOfferInfo>();
+            }
 
             IJobOfferScraper generalScraper = new GeneralJobOfferScraper(this.Configuration);
 
