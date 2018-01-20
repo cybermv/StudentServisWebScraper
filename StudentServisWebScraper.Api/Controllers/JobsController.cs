@@ -25,7 +25,9 @@ namespace StudentServisWebScraper.Api.Controllers
         [HttpGet]
         public List<JobOffer> GetJobs()
         {
-            List<JobOffer> jobs = this.DataContext.JobOffers.ToList();
+            List<JobOffer> jobs = this.DataContext.JobOffers
+                .Where(j => !j.DateRemoved.HasValue)
+                .ToList();
 
             return jobs;
         }
@@ -39,7 +41,7 @@ namespace StudentServisWebScraper.Api.Controllers
 
         // GET: api/jobs/{jobGuid}
         [HttpGet("{jobGuid}")]
-        public ActionResult GetJobs(Guid jobGuid)
+        public ActionResult GetJob(Guid jobGuid)
         {
             JobOffer job = this.DataContext.JobOffers.Find(jobGuid);
 
@@ -54,11 +56,88 @@ namespace StudentServisWebScraper.Api.Controllers
         }
 
         // GET: api/jobs/category/{jobCategory}
-        [HttpGet("category/{jobCategory}")]
-        public List<JobOffer> GetJobsByCategory(string jobCategory)
+        [HttpGet("category/{categoryId}")]
+        public List<JobOffer> GetJobsByCategory(int categoryId)
+        {
+            CategoryInfo category = this.ScraperConfiguration.Categories.SingleOrDefault(c => c.Id == categoryId);
+
+            if (category == null)
+            {
+                return Array.Empty<JobOffer>().ToList();
+            }
+
+            List<JobOffer> jobs = this.DataContext.JobOffers
+                .Where(j => !j.DateRemoved.HasValue)
+                .Where(j => j.Category.Equals(category.FriendlyName, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            return jobs;
+        }
+
+        // GET: api/jobs/filter
+        [HttpGet("filter")]
+        public List<JobOffer> GetJobsFiltered(
+            [FromQuery] string contains,
+            [FromQuery] decimal? minHourlyPay,
+            [FromQuery] int? categoryId,
+            [FromQuery] int? pageSize,
+            [FromQuery] int? pageIndex,
+            [FromQuery] bool excludeNonParsed = false)
+        {
+            IQueryable<JobOffer> jobs = this.DataContext.JobOffers
+                .Where(j => !j.DateRemoved.HasValue);
+
+            if (!string.IsNullOrWhiteSpace(contains))
+            {
+                jobs = jobs.Where(j => j.Text.Contains(contains));
+            }
+
+            if (minHourlyPay.HasValue && minHourlyPay.Value > 0)
+            {
+                if (excludeNonParsed)
+                {
+                    jobs = jobs.Where(j =>
+                        j.HourlyPay.HasValue &&
+                        j.HourlyPay.Value >= minHourlyPay.Value);
+                }
+                else
+                {
+                    jobs = jobs.Where(j =>
+                        !j.HourlyPay.HasValue ||
+                        j.HourlyPay.Value >= minHourlyPay.Value);
+                }
+            }
+
+            if (categoryId.HasValue)
+            {
+                CategoryInfo category = this.ScraperConfiguration.Categories.SingleOrDefault(c => c.Id == categoryId);
+
+                if (category == null)
+                {
+                    return Array.Empty<JobOffer>().ToList();
+                }
+
+                jobs = jobs.Where(j => j.Category.Equals(category.FriendlyName, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if(pageSize.HasValue && pageIndex.HasValue && pageSize > 0 && pageIndex >= 0)
+            {
+                jobs = jobs
+                    .OrderBy(j => j.Code)
+                    .Skip(pageSize.Value * pageIndex.Value)
+                    .Take(pageSize.Value);
+            }
+
+            return jobs.ToList();
+        }
+
+        // GET: api/jobs/code/{codeId}
+        [HttpGet("code/{codeId}")]
+        public List<JobOffer> GetJobsByCode(int codeId)
         {
             List<JobOffer> jobs = this.DataContext.JobOffers
-                .Where(j => j.Category.Equals(jobCategory, StringComparison.OrdinalIgnoreCase))
+                .Where(j => !j.DateRemoved.HasValue)
+                .Where(j => j.Code == codeId)
                 .ToList();
 
             return jobs;

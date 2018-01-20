@@ -4,42 +4,52 @@
   "scrapingIntervalMinutes": 5,
   "categories": [
     {
+      "id": 1,
       "friendlyName": "Poslovi promidžbe",
       "scrapeName": "PROMIDŽBA"
     },
     {
+      "id": 2,
       "friendlyName": "Poslovi u turizmu",
       "scrapeName": "TURIZAM"
     },
     {
+      "id": 3,
       "friendlyName": "Rad u skladištima",
       "scrapeName": "SKLADIŠTA"
     },
     {
+      "id": 4,
       "friendlyName": "Poslovi u proizvodnji",
       "scrapeName": "PROIZVODNJA"
     },
     {
+      "id": 5,
       "friendlyName": "Prodaja",
       "scrapeName": "TRGOVINA / PRODAJA"
     },
     {
+      "id": 6,
       "friendlyName": "Poslovi čišćenja",
       "scrapeName": "ČIŠĆENJA"
     },
     {
+      "id": 7,
       "friendlyName": "Fizički poslovi",
       "scrapeName": "FIZIČKI POSLOVI"
     },
     {
+      "id": 8,
       "friendlyName": "Poslovi u ugostiteljstvu",
       "scrapeName": "UGOSTITELJSTVO"
     },
     {
+      "id": 9,
       "friendlyName": "Razni poslovi",
       "scrapeName": "RAZNO"
     },
     {
+      "id": 10,
       "friendlyName": "Poslovi u administraciji",
       "scrapeName": "ADMINISTRATIVNI / UREDSKI POSLOVI"
     }
