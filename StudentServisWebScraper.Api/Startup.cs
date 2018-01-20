@@ -12,6 +12,7 @@ using StudentServisWebScraper.Api.Scraping;
 using Hangfire;
 using StudentServisWebScraper.Api.Tasks;
 using StudentServisWebScraper.Api.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace StudentServisWebScraper.Api
 {
@@ -29,28 +30,32 @@ namespace StudentServisWebScraper.Api
         {
             services.AddMvc();
 
+            services.AddDbContext<StudentServisWebScraperDataContext>(
+                options => options.UseSqlServer(this.Configuration.GetConnectionString("StudentServisDatabase")));
+
+            services.AddHangfire(
+                config => config.UseSqlServerStorage(this.Configuration.GetConnectionString("StudentServisDatabase")));
+
             services.AddSingleton(Configuration.Get<ScraperConfiguration>());
 
             services.AddTransient<JobOfferParser>();
             services.AddTransient<JobScraper>();
-            //services.AddTransient<JobOfferStorage>();
+            services.AddTransient<JobOfferDataManager>();
             services.AddTransient<JobScrapingTask>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            /*GlobalConfiguration.Configuration.UseSqlServerStorage(
-                this.Configuration.GetConnectionString("StudentServisDatabase"));
-
             app.UseHangfireDashboard();
             app.UseHangfireServer();
 
+            JobScrapingTask.Provider = app.ApplicationServices;
             RecurringJob.AddOrUpdate(
                 "JobScrapingTask",
-                () => JobScrapingTask.CreateAndExecute(app.ApplicationServices),
+                () => JobScrapingTask.CreateAndExecute(),
                 Cron.MinuteInterval(this.Configuration.Get<ScraperConfiguration>().ScrapingIntervalMinutes));
-                */
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

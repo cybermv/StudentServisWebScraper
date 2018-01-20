@@ -1,7 +1,6 @@
 ﻿using StudentServisWebScraper.Api.Scraping.Models;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace StudentServisWebScraper.Api.Data
@@ -44,6 +43,11 @@ namespace StudentServisWebScraper.Api.Data
             };
         }
 
+        /// <summary>
+        /// Simple regex to try and parse the email
+        /// </summary>
+        /// <param name="text">Text of the job offer</param>
+        /// <returns>Parsed email or null if it cannot be located</returns>
         private string ExtractEmail(string text)
         {
             Match matchedEmail = Regex.Match(
@@ -54,6 +58,11 @@ namespace StudentServisWebScraper.Api.Data
             return matchedEmail.Success ? matchedEmail.Value : null;
         }
 
+        /// <summary>
+        /// Simple regex to try and parse the phone number
+        /// </summary>
+        /// <param name="text">Text of the job offer</param>
+        /// <returns>Parsed phone number or null if it cannot be located</returns>
         private string ExtractPhone(string text)
         {
             Match matchedPhone = Regex.Match(
@@ -64,6 +73,11 @@ namespace StudentServisWebScraper.Api.Data
             return matchedPhone.Success ? matchedPhone.Value : null;
         }
 
+        /// <summary>
+        /// Simple regex to try and parse the hourly rate
+        /// </summary>
+        /// <param name="text">Text of the job offer</param>
+        /// <returns>Parsed hourly rate or null if it cannot be located</returns>
         private decimal? ExtractHourlyRate(string text)
         {
             Match matchedHourlyRate = Regex.Match(

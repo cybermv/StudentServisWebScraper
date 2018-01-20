@@ -12,37 +12,38 @@ namespace StudentServisWebScraper.Api.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        public ScraperConfiguration ScraperConfiguration { get; }
-
-        public JobScraper Scraper { get; }
-
-        public JobOfferParser Parser { get; }
-
-        public ValuesController(ScraperConfiguration config, JobScraper scraper, JobOfferParser parser)
+        public ValuesController(StudentServisWebScraperDataContext context)
         {
-            this.ScraperConfiguration = config;
-            this.Scraper = scraper;
-            this.Parser = parser;
+            this.DataContext = context;
         }
+
+        public StudentServisWebScraperDataContext DataContext { get; set; }
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<JobOffer> Get()
+        public List<JobOffer> Get()
         {
-            ICollection<JobOfferInfo> scrapedJobs = this.Scraper.Scrape();
+            List<JobOffer> offers = this.DataContext.JobOffers.ToList();
 
-            IEnumerable<JobOffer> parsedJobs = this.Parser.Parse(scrapedJobs);
-
-            return parsedJobs;
-
-            //return new string[] { "value1", "value2", ScraperConfiguration.RootUrl.ToString(), ScraperConfiguration.JobOfferUrl.ToString() };
+            return offers;
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{code}")]
+        public JobOffer Get(int code)
         {
-            return "value";
+            JobOffer foundOffer = this.DataContext.JobOffers.SingleOrDefault(jo =>
+                !jo.DateRemoved.HasValue &&
+                jo.Code == code);
+
+            return foundOffer;
+        }
+
+        // GET api/values/all
+        [HttpGet("all")]
+        public IEnumerable<JobOffer> GetAll([FromServices] StudentServisWebScraperDataContext ctx)
+        {
+            return ctx.JobOffers.ToList();
         }
 
         // POST api/values

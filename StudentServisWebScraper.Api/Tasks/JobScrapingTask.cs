@@ -15,7 +15,12 @@ namespace StudentServisWebScraper.Api.Tasks
     /// </summary>
     public class JobScrapingTask
     {
-        public JobScrapingTask(JobScraper scraper, JobOfferParser parser, object storage)
+        /// <summary>
+        /// TODO: find a smarter way to get dependencies
+        /// </summary>
+        public static IServiceProvider Provider { get; set; }
+
+        public JobScrapingTask(JobScraper scraper, JobOfferParser parser, JobOfferDataManager storage)
         {
             this.Scraper = scraper;
             this.Parser = parser;
@@ -26,7 +31,7 @@ namespace StudentServisWebScraper.Api.Tasks
 
         public JobOfferParser Parser { get; private set; }
 
-        public object Storage { get; private set; }
+        public JobOfferDataManager Storage { get; private set; }
 
         public void Execute()
         {
@@ -34,14 +39,16 @@ namespace StudentServisWebScraper.Api.Tasks
 
             IEnumerable<JobOffer> parsedJobs = this.Parser.Parse(scrapedJobs);
 
-            // TODO: diff the entries in the database
+            this.Storage.Store(parsedJobs);
         }
 
-        public static void CreateAndExecute(IServiceProvider services)
+        public static void CreateAndExecute()
         {
-            JobScrapingTask task = services.GetService<JobScrapingTask>();
-
-            task.Execute();
+            using (IServiceScope scope = Provider.CreateScope())
+            {
+                JobScrapingTask task = scope.ServiceProvider.GetService<JobScrapingTask>();
+                task.Execute();
+            }
         }
     }
 }
