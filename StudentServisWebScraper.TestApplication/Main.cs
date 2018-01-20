@@ -66,12 +66,11 @@ namespace StudentServisWebScraper.TestApplication
 
             string jobsJson = client.DownloadString(this.ApiRootUrl + "/api/jobs/filter");
 
-            string formatted = JsonConvert
-                .DeserializeObject<List<JobModel>>(jobsJson)
-                .Select(j => j.Text)
-                .Aggregate((x, y) => x + Environment.NewLine + Environment.NewLine + y);
+            List<JobModel> jobs = JsonConvert
+                .DeserializeObject<List<JobModel>>(jobsJson);
 
-            tbxResults.Text = formatted;
+            dgrResults.AutoGenerateColumns = false;
+            dgrResults.DataSource = jobs;
         }
     }
 }

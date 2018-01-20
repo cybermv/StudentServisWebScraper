@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkExcludeNonParsed = new System.Windows.Forms.CheckBox();
             this.numMinHourlyPay = new System.Windows.Forms.NumericUpDown();
@@ -38,9 +40,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cbxCategory = new System.Windows.Forms.ComboBox();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.tbxResults = new System.Windows.Forms.TextBox();
+            this.dgrResults = new System.Windows.Forms.DataGridView();
+            this.colCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colHourlyPay = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinHourlyPay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgrResults)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -152,21 +158,59 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // tbxResults
+            // dgrResults
             // 
-            this.tbxResults.Location = new System.Drawing.Point(12, 93);
-            this.tbxResults.Multiline = true;
-            this.tbxResults.Name = "tbxResults";
-            this.tbxResults.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbxResults.Size = new System.Drawing.Size(656, 274);
-            this.tbxResults.TabIndex = 1;
+            this.dgrResults.AllowUserToAddRows = false;
+            this.dgrResults.AllowUserToDeleteRows = false;
+            this.dgrResults.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgrResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgrResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colCode,
+            this.colText,
+            this.colHourlyPay});
+            this.dgrResults.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgrResults.Location = new System.Drawing.Point(12, 93);
+            this.dgrResults.Name = "dgrResults";
+            this.dgrResults.ReadOnly = true;
+            this.dgrResults.RowHeadersVisible = false;
+            this.dgrResults.Size = new System.Drawing.Size(656, 276);
+            this.dgrResults.TabIndex = 1;
+            // 
+            // colCode
+            // 
+            this.colCode.DataPropertyName = "Code";
+            this.colCode.HeaderText = "Code";
+            this.colCode.Name = "colCode";
+            this.colCode.ReadOnly = true;
+            this.colCode.Width = 50;
+            // 
+            // colText
+            // 
+            this.colText.DataPropertyName = "Text";
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.colText.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colText.HeaderText = "Text";
+            this.colText.Name = "colText";
+            this.colText.ReadOnly = true;
+            this.colText.Width = 500;
+            // 
+            // colHourlyPay
+            // 
+            this.colHourlyPay.DataPropertyName = "HourlyPay";
+            dataGridViewCellStyle4.Format = "C2";
+            dataGridViewCellStyle4.NullValue = null;
+            this.colHourlyPay.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colHourlyPay.HeaderText = "Hourly pay";
+            this.colHourlyPay.Name = "colHourlyPay";
+            this.colHourlyPay.ReadOnly = true;
+            this.colHourlyPay.Width = 80;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 381);
-            this.Controls.Add(this.tbxResults);
+            this.Controls.Add(this.dgrResults);
             this.Controls.Add(this.groupBox1);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(700, 420);
@@ -178,8 +222,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinHourlyPay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgrResults)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -194,7 +238,10 @@
         private System.Windows.Forms.NumericUpDown numMinHourlyPay;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.TextBox tbxResults;
+        private System.Windows.Forms.DataGridView dgrResults;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colText;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colHourlyPay;
     }
 }
 
