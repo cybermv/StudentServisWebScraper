@@ -21,6 +21,7 @@ namespace StudentServisWebScraper.Api
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .ConfigureAppConfiguration(cb => cb.AddJsonFile("scraper.json"))
+                .UseContentRoot(Directory.GetCurrentDirectory())
                 .Build();
     }
 }

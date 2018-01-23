@@ -62,6 +62,9 @@ namespace StudentServisWebScraper.Api
             }
 
             app.UseMvc();
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
         }
     }
 }
