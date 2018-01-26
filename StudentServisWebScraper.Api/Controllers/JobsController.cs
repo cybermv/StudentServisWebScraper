@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentServisWebScraper.Api.Data;
+using StudentServisWebScraper.Api.ModelBinding;
 using StudentServisWebScraper.Api.Scraping;
 using StudentServisWebScraper.Api.Scraping.Models;
 using System;
@@ -80,6 +81,7 @@ namespace StudentServisWebScraper.Api.Controllers
             [FromQuery] string contains,
             [FromQuery] decimal? minHourlyPay,
             [FromQuery] int? categoryId,
+            [FromQuery, ModelBinder(typeof(QueryStringIntArrayModelBinder))] int[] categoryIds,
             [FromQuery] int? pageSize,
             [FromQuery] int? pageIndex,
             [FromQuery] bool excludeNonParsed = false)
@@ -108,7 +110,16 @@ namespace StudentServisWebScraper.Api.Controllers
                 }
             }
 
-            if (categoryId.HasValue)
+            if (categoryIds != null)
+            {
+                string[] categoriesToFilterBy = this.ScraperConfiguration.Categories
+                    .Where(c => categoryIds.Contains(c.Id))
+                    .Select(c => c.FriendlyName)
+                    .ToArray();
+
+                jobs = jobs.Where(j => categoriesToFilterBy.Contains(j.Category));
+            }
+            else if (categoryId.HasValue)
             {
                 CategoryInfo category = this.ScraperConfiguration.Categories.SingleOrDefault(c => c.Id == categoryId);
 
