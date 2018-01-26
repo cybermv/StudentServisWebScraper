@@ -4,7 +4,9 @@
              x:Class="SSWS.Mobile.App">
 	<Application.Resources>
 
-		<!-- Application resource dictionary -->
+        
+
+        <!-- Application resource dictionary -->
 
 	</Application.Resources>
 </Application>

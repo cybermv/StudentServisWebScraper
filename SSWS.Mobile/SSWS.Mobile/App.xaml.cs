@@ -13,7 +13,7 @@ namespace SSWS.Mobile
 		{
 			InitializeComponent();
 
-			MainPage = new SSWS.Mobile.MainPage();
+            MainPage = new JobOffers();
 		}
 
 		protected override void OnStart ()

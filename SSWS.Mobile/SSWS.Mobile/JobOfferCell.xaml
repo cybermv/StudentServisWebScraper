@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          x:Class="SSWS.Mobile.JobOfferCell">
+    <ViewCell.View>
+
+        <Grid x:Name="CellGrid"
+              ColumnSpacing="0"
+              RowSpacing="0"
+              Margin="5, 0, 5, 0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="8*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0"
+                   Text="{Binding Category}"
+                   FontSize="Micro"
+                   TextColor="SlateGray"
+                   HorizontalTextAlignment="End"/>
+
+            <Label Grid.Column="0" Grid.Row="1"
+                   Text="{Binding TextShortened}"
+                   FontSize="Small"
+                   TextColor="Black" />
+
+            <Label Grid.Column="0" Grid.Row="2"
+                   Text="{Binding Caption}"
+                   FontSize="Micro"
+                   HorizontalTextAlignment="End"
+                   TextColor="Black" />
+
+        </Grid>
+
+    </ViewCell.View>
+</ViewCell>
