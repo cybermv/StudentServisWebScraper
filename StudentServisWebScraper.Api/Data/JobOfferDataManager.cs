@@ -28,17 +28,26 @@ namespace StudentServisWebScraper.Api.Data
 
             foreach (JobOffer offer in offers)
             {
-                // the job offer is in the database and on the website - update it
+                // the job offer is in the database and on the website - check if it needs an update
+                // IMPORTANT - this assumes that the code and category combination is unique!
+                //             it may be not true in the end but I don't see another way to do it
                 if (existingOffers.Exists(eo => eo.Code == offer.Code && eo.Category == offer.Category))
                 {
                     JobOffer existing = existingOffers.Single(eo => eo.Code == offer.Code && eo.Category == offer.Category);
-                    existing.DateLastChanged = this.Now;
-                    existing.Text = offer.Text;
-                    existing.ContactEmail = offer.ContactEmail;
-                    existing.ContactPhone = offer.ContactPhone;
-                    existing.HourlyPay = offer.HourlyPay;
 
-                    this.DataContext.Update(existing);
+                    // the text of the offer is changed, update the entry
+                    if (existing.Text != offer.Text)
+                    {
+                        existing.DateLastChanged = this.Now;
+                        existing.Text = offer.Text;
+                        existing.ContactEmail = offer.ContactEmail;
+                        existing.ContactPhone = offer.ContactPhone;
+                        existing.HourlyPay = offer.HourlyPay;
+
+                        this.DataContext.Update(existing);
+                    }
+
+                    // remove from the list because the item is processed
                     existingOffers.Remove(existing);
                 }
                 // the offer doesn't exist in the database - add it
@@ -48,9 +57,9 @@ namespace StudentServisWebScraper.Api.Data
                 }
             }
 
+            // every existing offer in database but not found on the website is marked as removed
             foreach (JobOffer expired in existingOffers)
             {
-                // every offer in database but not on the website is marked as removed
                 expired.DateRemoved = this.Now;
                 this.DataContext.Update(expired);
             }

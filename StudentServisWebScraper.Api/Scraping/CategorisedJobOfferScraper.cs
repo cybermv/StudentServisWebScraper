@@ -37,7 +37,7 @@ namespace StudentServisWebScraper.Api.Scraping
                     $"Cannot locate link for category '{this.Category.ScrapeName}' in the document.");
             }
 
-            HtmlWeb web = new HtmlWeb();
+            HtmlWeb web = HtmlWebProvider.GetInstance();
             Uri navigationUri = new Uri(this.Configuration.RootUrl + link.Attributes["href"].Value);
             HtmlDocument navigatedDocument = null;
 
@@ -47,14 +47,15 @@ namespace StudentServisWebScraper.Api.Scraping
             }
             catch
             {
-                return Array.Empty<JobOfferInfo>();
+                throw new ScrapingException(
+                    $"Loading of category page '{this.Category.ScrapeName}' failed.");
             }
 
 
             HtmlNode content = navigatedDocument.DocumentNode
                 .SelectSingleNode(@"//div[@id='mainContent']//div[@class='content']");
 
-            if (content == null)
+            if (content == null || string.IsNullOrWhiteSpace(content.InnerText))
             {
                 throw new ScrapingException(
                     $"Cannot locate content for category '{this.Category.ScrapeName}'.");
@@ -68,7 +69,7 @@ namespace StudentServisWebScraper.Api.Scraping
                 while ((line = sr.ReadLine()) != null)
                 {
                     if (string.IsNullOrWhiteSpace(line)) continue;
-                    if (!Regex.IsMatch(line, @"^(\d+ ?\/).*", RegexOptions.Multiline)) continue;
+                    if (!Regex.IsMatch(line, @"^(\d+ ?\/).*", RegexOptions.Multiline | RegexOptions.Compiled)) continue;
 
                     JobOfferInfo joi = new JobOfferInfo(line, this.Category.FriendlyName);
                     foundOffers.Add(joi);

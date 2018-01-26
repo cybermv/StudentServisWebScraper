@@ -26,7 +26,7 @@ namespace StudentServisWebScraper.Api.Scraping
         public ICollection<JobOfferInfo> Scrape()
         {
             List<JobOfferInfo> foundJobs = new List<JobOfferInfo>();
-            HtmlWeb web = new HtmlWeb();
+            HtmlWeb web = HtmlWebProvider.GetInstance();
             Uri jobOfferUri = new Uri(this.Configuration.RootUrl + this.Configuration.JobOfferUrl);
             HtmlDocument document = null;
 
@@ -36,7 +36,8 @@ namespace StudentServisWebScraper.Api.Scraping
             }
             catch
             {
-                return Array.Empty<JobOfferInfo>();
+                throw new ScrapingException(
+                    $"Cannot load job offer page; cannot continue scraping.");
             }
 
             IJobOfferScraper generalScraper = new GeneralJobOfferScraper(this.Configuration);
