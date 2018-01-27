@@ -35,7 +35,7 @@ namespace StudentServisWebScraper.Api.Data
                 Text = job.Text,
                 Category = job.Category,
                 DateAdded = this.Now,
-                DateLastChanged = null,
+                DateLastChanged = this.Now,
                 DateRemoved = null,
                 ContactEmail = ExtractEmail(job.Text),
                 ContactPhone = ExtractPhone(job.Text),

@@ -28,6 +28,7 @@ namespace StudentServisWebScraper.Api.Controllers
         {
             List<JobOffer> jobs = this.DataContext.JobOffers
                 .Where(j => !j.DateRemoved.HasValue)
+                .OrderByDescending(j => j.DateLastChanged)
                 .ToList();
 
             return jobs;
@@ -69,6 +70,7 @@ namespace StudentServisWebScraper.Api.Controllers
 
             List<JobOffer> jobs = this.DataContext.JobOffers
                 .Where(j => !j.DateRemoved.HasValue)
+                .OrderByDescending(j => j.DateLastChanged)
                 .Where(j => j.Category.Equals(category.FriendlyName, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
@@ -78,6 +80,7 @@ namespace StudentServisWebScraper.Api.Controllers
         // GET: api/jobs/filter
         [HttpGet("filter")]
         public List<JobOffer> GetJobsFiltered(
+            [FromQuery] DateTime? changedAfter,
             [FromQuery] string contains,
             [FromQuery] decimal? minHourlyPay,
             [FromQuery] int? categoryId,
@@ -87,7 +90,13 @@ namespace StudentServisWebScraper.Api.Controllers
             [FromQuery] bool excludeNonParsed = false)
         {
             IQueryable<JobOffer> jobs = this.DataContext.JobOffers
-                .Where(j => !j.DateRemoved.HasValue);
+                .Where(j => !j.DateRemoved.HasValue)
+                .OrderByDescending(j => j.DateLastChanged);
+
+            if (changedAfter.HasValue)
+            {
+                jobs = jobs.Where(j => j.DateLastChanged > changedAfter);
+            }
 
             if (!string.IsNullOrWhiteSpace(contains))
             {
@@ -110,7 +119,7 @@ namespace StudentServisWebScraper.Api.Controllers
                 }
             }
 
-            if (categoryIds != null)
+            if (categoryIds != null && categoryIds.Length != 0)
             {
                 string[] categoriesToFilterBy = this.ScraperConfiguration.Categories
                     .Where(c => categoryIds.Contains(c.Id))
@@ -134,7 +143,6 @@ namespace StudentServisWebScraper.Api.Controllers
             if(pageSize.HasValue && pageIndex.HasValue && pageSize > 0 && pageIndex >= 0)
             {
                 jobs = jobs
-                    .OrderBy(j => j.Code)
                     .Skip(pageSize.Value * pageIndex.Value)
                     .Take(pageSize.Value);
             }
@@ -148,6 +156,7 @@ namespace StudentServisWebScraper.Api.Controllers
         {
             List<JobOffer> jobs = this.DataContext.JobOffers
                 .Where(j => !j.DateRemoved.HasValue)
+                .OrderByDescending(j => j.DateLastChanged)
                 .Where(j => j.Code == codeId)
                 .ToList();
 
