@@ -3,10 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SSWS.Mobile.App">
 	<Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="PageBackgroundColor">Yellow</Color>
+            <Color x:Key="HeadingTextColor">Black</Color>
+            <Color x:Key="NormalTextColor">Blue</Color>
+            <Style x:Key="LabelPageHeadingStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="{StaticResource HeadingTextColor}" />
+            </Style>
 
-        
-
-        <!-- Application resource dictionary -->
-
-	</Application.Resources>
+            <x:String x:Key="GeneralPageTitle">Student Servis - poslovi</x:String>
+            <x:String x:Key="StrSettings">Postavke</x:String>
+            <x:String x:Key="StrCategoriesSelect">Tražene kategorije</x:String>
+            <x:String x:Key="StrCategoriesAll">Odaberi sve</x:String>
+            <x:String x:Key="StrCategoriesNone">Očisti sve</x:String>
+            
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

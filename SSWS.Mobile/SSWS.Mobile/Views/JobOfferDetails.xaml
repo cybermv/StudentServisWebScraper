@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SSWS.Mobile.Views.JobOfferDetails"
+             Title="{StaticResource GeneralPageTitle}">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Orientation="Vertical" VerticalOptions="Start">
+                <Label Text="{Binding Job.Text}"
+                       FontSize="Small"
+                       VerticalOptions="CenterAndExpand"
+                       HorizontalOptions="CenterAndExpand" />
+            </StackLayout>
+
+            <!--<StackLayout VerticalOptions="CenterAndExpand">
+            </StackLayout>-->
+
+            <StackLayout Orientation="Vertical" VerticalOptions="End">
+                <Label Text="{Binding Job.Category, StringFormat='Kategorija: {0}'}" />
+                <Label Text="{Binding Job.DateAdded, StringFormat='Datum dodavanja: {0}'}" />
+                <Label Text="{Binding Job.HourlyPay, StringFormat='Satnica: {0} kn/h'}" IsVisible="{Binding Job.HourlyPay.HasValue}" />
+                <Label Text="{Binding Job.ContactPhone, StringFormat='Kontakt telefon: {0}'}" />
+                <Label Text="{Binding Job.ContactEmail, StringFormat='Kontakt e-mail: {0}'}" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

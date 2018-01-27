@@ -14,7 +14,7 @@ namespace StudentServisWebScraper.TestApplication.Models
 
         public DateTime DateAdded { get; set; }
 
-        public DateTime? DateLastChanged { get; set; }
+        public DateTime DateLastChanged { get; set; }
 
         public DateTime? DateRemoved { get; set; }
 

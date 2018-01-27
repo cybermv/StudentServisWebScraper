@@ -12,10 +12,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)JobOfferCell.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Data\IJobOfferRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\JobOffersRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\MockJobOfferRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\JobOfferCell.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)JobOffers.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Views\JobOfferDetails.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\JobOffers.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Models\CategoryModel.cs" />
@@ -28,12 +34,17 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)JobOffers.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\JobOffers.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)JobOfferCell.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\JobOfferCell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\JobOfferDetails.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

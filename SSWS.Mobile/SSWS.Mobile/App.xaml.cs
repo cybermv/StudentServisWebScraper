@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
+using SSWS.Mobile.Views;
 
 namespace SSWS.Mobile
 {
@@ -13,7 +9,14 @@ namespace SSWS.Mobile
 		{
 			InitializeComponent();
 
-            MainPage = new JobOffers();
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                MainPage = new JobOffers();
+            }
+            else
+            {
+                MainPage = new NavigationPage(new JobOffers());
+            }
 		}
 
 		protected override void OnStart ()
