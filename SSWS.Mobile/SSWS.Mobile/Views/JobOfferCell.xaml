@@ -8,7 +8,7 @@
         <Grid x:Name="CellGrid"
               ColumnSpacing="0"
               RowSpacing="0"
-              Margin="5, 0, 5, 0">
+              Margin="10, 0, 5, 0">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -31,11 +31,6 @@
                                      LineBreakMode="TailTruncation"
                                      Lines="2" />
 
-            <!--<Label x:Name="JobTextLabel" Grid.Column="0" Grid.Row="1"
-                   Text="{Binding Text}"
-                   FontSize="Small"
-                   TextColor="Black"
-                   LineBreakMode="WordWrap" /> -->
 
             <Label Grid.Column="0" Grid.Row="2"
                    Text="{Binding Caption}"

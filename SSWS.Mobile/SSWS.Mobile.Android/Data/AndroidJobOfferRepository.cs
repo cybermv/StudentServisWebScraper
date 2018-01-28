@@ -12,6 +12,9 @@ using Android.Widget;
 using SSWS.Mobile.Data;
 using SSWS.Mobile.Models;
 using SSWS.Mobile.Droid.Data;
+using Android.Net;
+using System.Net;
+using Newtonsoft.Json;
 
 [assembly: Xamarin.Forms.Dependency(typeof(AndroidJobOfferRepository))]
 namespace SSWS.Mobile.Droid.Data
