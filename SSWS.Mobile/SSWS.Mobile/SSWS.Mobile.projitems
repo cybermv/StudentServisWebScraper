@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\MultiLineLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\IJobOfferRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\JobOffersRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\MockJobOfferRepository.cs" />
