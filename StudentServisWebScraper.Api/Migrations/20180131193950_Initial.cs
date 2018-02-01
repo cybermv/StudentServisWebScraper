@@ -18,7 +18,7 @@ namespace StudentServisWebScraper.Api.Migrations
                     ContactEmail = table.Column<string>(nullable: true),
                     ContactPhone = table.Column<string>(nullable: true),
                     DateAdded = table.Column<DateTime>(nullable: false),
-                    DateLastChanged = table.Column<DateTime>(nullable: true),
+                    DateLastChanged = table.Column<DateTime>(nullable: false),
                     DateRemoved = table.Column<DateTime>(nullable: true),
                     HourlyPay = table.Column<decimal>(nullable: true),
                     Text = table.Column<string>(nullable: false)

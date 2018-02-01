@@ -11,15 +11,14 @@ using System;
 namespace StudentServisWebScraper.Api.Migrations
 {
     [DbContext(typeof(StudentServisWebScraperDataContext))]
-    [Migration("20180120150528_Initial")]
+    [Migration("20180131193950_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
 
             modelBuilder.Entity("StudentServisWebScraper.Api.Data.JobOffer", b =>
                 {
@@ -37,7 +36,7 @@ namespace StudentServisWebScraper.Api.Migrations
 
                     b.Property<DateTime>("DateAdded");
 
-                    b.Property<DateTime?>("DateLastChanged");
+                    b.Property<DateTime>("DateLastChanged");
 
                     b.Property<DateTime?>("DateRemoved");
 

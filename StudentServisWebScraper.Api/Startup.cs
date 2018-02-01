@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using StudentServisWebScraper.Api.Scraping;
 using Hangfire;
+using Hangfire.SQLite;
 using StudentServisWebScraper.Api.Tasks;
 using StudentServisWebScraper.Api.Data;
 using Microsoft.EntityFrameworkCore;
@@ -30,11 +31,13 @@ namespace StudentServisWebScraper.Api
         {
             services.AddMvc();
 
+            string connStr = this.Configuration.GetConnectionString("StudentServisDatabase");
+
             services.AddDbContext<StudentServisWebScraperDataContext>(
-                options => options.UseSqlServer(this.Configuration.GetConnectionString("StudentServisDatabase")));
+                options => options.UseSqlite(connStr));
 
             services.AddHangfire(
-                config => config.UseSqlServerStorage(this.Configuration.GetConnectionString("StudentServisDatabase")));
+                config => config.UseSQLiteStorage(connStr, new SQLiteStorageOptions()));
 
             services.AddSingleton(Configuration.Get<ScraperConfiguration>());
 
