@@ -26,7 +26,9 @@ namespace StudentServisWebScraper.Api
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddJsonFile("scraper.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"scraper.{env.EnvironmentName}.json", optional: true);
+                .AddJsonFile($"scraper.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables()
+                .AddCommandLine(Environment.GetCommandLineArgs());
 
             Configuration = builder.Build();
         }
