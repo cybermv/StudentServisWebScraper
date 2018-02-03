@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Hangfire;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using StudentServisWebScraper.Api.Data;
 using StudentServisWebScraper.Api.Scraping;
 using StudentServisWebScraper.Api.Scraping.Models;
@@ -49,6 +51,15 @@ namespace StudentServisWebScraper.Api.Tasks
                 JobScrapingTask task = scope.ServiceProvider.GetService<JobScrapingTask>();
                 task.Execute();
             }
+        }
+
+        public static void SetUp(IServiceProvider provider, IConfiguration configuration)
+        {
+            Provider = provider;
+            RecurringJob.AddOrUpdate(
+                "JobScrapingTask",
+                () => CreateAndExecute(),
+                Cron.MinuteInterval(configuration.Get<ScraperConfiguration>().ScrapingIntervalMinutes));
         }
     }
 }

@@ -7,11 +7,6 @@ namespace StudentServisWebScraper.Api.Data
     /// </summary>
     public class StudentServisWebScraperDataContext : DbContext
     {
-        public StudentServisWebScraperDataContext()
-            : base()
-        {
-        }
-
         public StudentServisWebScraperDataContext(DbContextOptions<StudentServisWebScraperDataContext> options)
             : base(options)
         {
@@ -22,7 +17,6 @@ namespace StudentServisWebScraper.Api.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlite("Data Source=SSWS.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
