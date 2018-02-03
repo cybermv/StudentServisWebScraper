@@ -7,6 +7,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Threading;
+using System.Globalization;
 
 namespace StudentServisWebScraper.Api
 {
@@ -14,6 +16,9 @@ namespace StudentServisWebScraper.Api
     {
         public static void Main(string[] args)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("hr-HR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("hr-HR");
+
             BuildWebHost(args).Run();
         }
 
