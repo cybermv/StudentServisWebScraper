@@ -8,7 +8,8 @@ namespace StudentServisWebScraper.Api.Tasks
         public bool Authorize([NotNull] DashboardContext context)
         {
             // top-notch security
-            return context.Request.GetQuery("sudo") == "true";
+            return context.GetHttpContext()
+                .Request.Cookies["sudo"] == "true";
         }
     }
 }
