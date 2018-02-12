@@ -1,6 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using StudentServisWebScraper.Api.Scraping;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+
 
 namespace StudentServisWebScraper.Api.Data
 {
@@ -22,38 +27,68 @@ namespace StudentServisWebScraper.Api.Data
 
         public void Store(IEnumerable<JobOffer> offers)
         {
+            using (IDbContextTransaction transaction = this.DataContext.Database.BeginTransaction(IsolationLevel.ReadCommitted))
+            {
+                StoreInternal(offers);
+
+                try
+                {
+                    this.DataContext.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new ScrapingException($"Storing of new job offers failed; exception message: {ex.Message}");
+                }
+            }
+        }
+
+        private void StoreInternal(IEnumerable<JobOffer> offers)
+        {
+            // all currently valid offers
             List<JobOffer> existingOffers = this.DataContext.JobOffers
                 .Where(jo => !jo.DateRemoved.HasValue)
                 .ToList();
 
+            Func<JobOffer, JobOffer, bool> comparer = JobOfferEqualityComparer.Comparer();
+
             foreach (JobOffer offer in offers)
             {
-                // the job offer is in the database and on the website - check if it needs an update
-                // IMPORTANT - this assumes that the code and category combination is unique!
-                //             it may be not true in the end but I don't see another way to do it
-                if (existingOffers.Exists(eo => eo.Code == offer.Code && eo.Category == offer.Category))
+                int count = existingOffers.Count(eo => JobOfferEqualityComparer.Comparer()(eo, offer));
+
+                // the offer is in the database and on the website - update the date
+                if (count == 1)
                 {
-                    JobOffer existing = existingOffers.Single(eo => eo.Code == offer.Code && eo.Category == offer.Category);
+                    JobOffer existing = existingOffers.Single(eo => comparer(eo, offer));
 
-                    // the text of the offer is changed, update the entry
-                    if (existing.Text != offer.Text)
-                    {
-                        existing.DateLastChanged = this.Now;
-                        existing.Text = offer.Text;
-                        existing.ContactEmail = offer.ContactEmail;
-                        existing.ContactPhone = offer.ContactPhone;
-                        existing.HourlyPay = offer.HourlyPay;
+                    existing.DateLastChanged = this.Now;
 
-                        this.DataContext.Update(existing);
-                    }
-
-                    // remove from the list because the item is processed
+                    this.DataContext.Update(existing);
                     existingOffers.Remove(existing);
                 }
                 // the offer doesn't exist in the database - add it
-                else
+                else if (count == 0)
                 {
                     this.DataContext.Add(offer);
+                }
+                // something is fucked up!
+                else
+                {
+                    IEnumerable<JobOffer> fuckedUpOffers = existingOffers.Where(eo => comparer(eo, offer));
+
+                    foreach (JobOffer fuckedUpOffer in fuckedUpOffers)
+                    {
+                        // remove the fucked up ones
+                        fuckedUpOffer.DateRemoved = this.Now;
+                        this.DataContext.Update(fuckedUpOffer);
+                    }
+                    existingOffers.RemoveAll(eo => comparer(eo, offer));
+
+                    // add the new one
+                    this.DataContext.Add(offer);
+
+                    // TODO: log this mistake
                 }
             }
 
@@ -63,8 +98,6 @@ namespace StudentServisWebScraper.Api.Data
                 expired.DateRemoved = this.Now;
                 this.DataContext.Update(expired);
             }
-
-            this.DataContext.SaveChanges();
         }
     }
 }

@@ -140,7 +140,7 @@ namespace StudentServisWebScraper.Api.Controllers
                 jobs = jobs.Where(j => j.Category.Equals(category.FriendlyName, StringComparison.OrdinalIgnoreCase));
             }
 
-            if(pageSize.HasValue && pageIndex.HasValue && pageSize > 0 && pageIndex >= 0)
+            if (pageSize.HasValue && pageIndex.HasValue && pageSize > 0 && pageIndex >= 0)
             {
                 jobs = jobs
                     .Skip(pageSize.Value * pageIndex.Value)
@@ -161,6 +161,18 @@ namespace StudentServisWebScraper.Api.Controllers
                 .ToList();
 
             return jobs;
+        }
+
+        // GET: api/jobs/status
+        [HttpGet("status")]
+        public object GetStatus()
+        {
+            return new
+            {
+                ActiveJobCount = this.DataContext.JobOffers.Where(j => !j.DateRemoved.HasValue).Count(),
+                DeletedJobCount = this.DataContext.JobOffers.Where(j => j.DateRemoved.HasValue).Count(),
+                MostRecentJobDate = this.DataContext.JobOffers.OrderByDescending(j => j.DateLastChanged).Select(j => j.DateLastChanged).FirstOrDefault(),
+            };
         }
     }
 }

@@ -35,9 +35,16 @@ namespace StudentServisWebScraper.Api.Data
 
         public decimal? HourlyPay { get; set; }
 
+        public string UniqueText => $"{Category}#{Text}";
+
         public override string ToString()
         {
-            return Text;
+            return UniqueText;
+        }
+
+        public override int GetHashCode()
+        {
+            return UniqueText.GetHashCode();
         }
     }
 }

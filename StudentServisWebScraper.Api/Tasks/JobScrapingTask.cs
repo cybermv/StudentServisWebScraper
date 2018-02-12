@@ -1,7 +1,4 @@
-﻿using Hangfire;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using StudentServisWebScraper.Api.Data;
+﻿using StudentServisWebScraper.Api.Data;
 using StudentServisWebScraper.Api.Scraping;
 using StudentServisWebScraper.Api.Scraping.Models;
 using System;
@@ -42,24 +39,6 @@ namespace StudentServisWebScraper.Api.Tasks
             IEnumerable<JobOffer> parsedJobs = this.Parser.Parse(scrapedJobs);
 
             this.Storage.Store(parsedJobs);
-        }
-
-        public static void CreateAndExecute()
-        {
-            using (IServiceScope scope = Provider.CreateScope())
-            {
-                JobScrapingTask task = scope.ServiceProvider.GetService<JobScrapingTask>();
-                task.Execute();
-            }
-        }
-
-        public static void SetUp(IServiceProvider provider, IConfiguration configuration)
-        {
-            Provider = provider;
-            RecurringJob.AddOrUpdate(
-                "JobScrapingTask",
-                () => CreateAndExecute(),
-                Cron.MinuteInterval(configuration.Get<ScraperConfiguration>().ScrapingIntervalMinutes));
         }
     }
 }

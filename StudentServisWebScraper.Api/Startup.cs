@@ -55,8 +55,13 @@ namespace StudentServisWebScraper.Api
             });
             app.UseHangfireServer();
 
-            JobScrapingTask.SetUp(app.ApplicationServices, Configuration);
+            GlobalConfiguration.Configuration.UseActivator(new AspNetCoreJobActivator(app.ApplicationServices));
 
+            RecurringJob.AddOrUpdate<JobScrapingTask>(
+                "JobScrapingTask",
+                jst => jst.Execute(),
+                Cron.MinuteInterval(Configuration.Get<ScraperConfiguration>().ScrapingIntervalMinutes));
+            
             if (env.IsDevelopment() || bool.Parse(Configuration["UseDeveloperExceptionPage"] ?? "false"))
             {
                 app.UseDeveloperExceptionPage();
@@ -80,14 +85,14 @@ namespace StudentServisWebScraper.Api
                     services.AddDbContext<StudentServisWebScraperDataContext>(
                         o => o.UseSqlServer(connectionString));
                     services.AddHangfire(
-                        c => c.UseSqlServerStorage(connectionString));
+                        c => c.UseStorage(new NoDeleteSqlServerStorage(connectionString)));
                     break;
 
                 case ConnectionString_Sqlite:
                     services.AddDbContext<StudentServisWebScraperDataContext>(
                         o => o.UseSqlite(connectionString));
                     services.AddHangfire(
-                        c => c.UseSqlServerStorage(connectionString));
+                        c => c.UseSQLiteStorage(connectionString));
                     break;
                 default:
                     throw new Exception($"Cannot start application without valid connection string! Given value: {chosenConnectionString}.");
