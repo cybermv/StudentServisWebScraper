@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Logging;
 using StudentServisWebScraper.Api.Scraping;
 using System;
 using System.Collections.Generic;
@@ -15,15 +16,18 @@ namespace StudentServisWebScraper.Api.Data
     /// </summary>
     public class JobOfferDataManager
     {
-        public JobOfferDataManager(StudentServisWebScraperDataContext context)
+        public JobOfferDataManager(StudentServisWebScraperDataContext context, ILogger<JobOfferDataManager> logger)
         {
             this.DataContext = context;
+            this.Logger = logger;
             this.Now = DateTime.UtcNow;
         }
 
-        public DateTime Now { get; set; }
-
         public StudentServisWebScraperDataContext DataContext { get; set; }
+
+        public ILogger<JobOfferDataManager> Logger { get; set; }
+
+        public DateTime Now { get; set; }
 
         public void Store(IEnumerable<JobOffer> offers)
         {
@@ -88,7 +92,7 @@ namespace StudentServisWebScraper.Api.Data
                     // add the new one
                     this.DataContext.Add(offer);
 
-                    // TODO: log this mistake
+                    Logger.LogWarning($"Fuck-up encountered while storing {offer.UniqueText}; found {count} matching job offer");
                 }
             }
 

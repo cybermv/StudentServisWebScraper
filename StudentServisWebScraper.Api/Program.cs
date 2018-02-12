@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Globalization;
+using NLog.Web;
+using NLog;
 
 namespace StudentServisWebScraper.Api
 {
@@ -19,12 +16,23 @@ namespace StudentServisWebScraper.Api
             Thread.CurrentThread.CurrentCulture = new CultureInfo("hr-HR");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("hr-HR");
 
-            BuildWebHost(args).Run();
+            Logger logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            try
+            {
+                logger.Debug("init main");
+                BuildWebHost(args).Run();
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "Stopped program because of exception");
+                throw;
+            }
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseNLog()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .Build();
     }
