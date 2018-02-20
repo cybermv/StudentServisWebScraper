@@ -10,6 +10,8 @@ using StudentServisWebScraper.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Hangfire.Dashboard;
+using StudentServisWebScraper.Api.Authentication;
+using Microsoft.AspNetCore.Identity;
 
 namespace StudentServisWebScraper.Api
 {
@@ -40,6 +42,16 @@ namespace StudentServisWebScraper.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddSingleUserStores(this.Configuration.GetSection("SingleUserStore"));
+
+            services.ConfigureApplicationCookie(config =>
+            {
+                config.Cookie.Name = "SSWS";
+                config.LoginPath = "/Application/Login";
+                config.LogoutPath = "/Application/Logout";
+            });
+
             services.AddMvc();
 
             ConfigureData(services);
@@ -51,7 +63,8 @@ namespace StudentServisWebScraper.Api
         {
             app.UseHangfireDashboard(options: new DashboardOptions
             {
-                Authorization = new IDashboardAuthorizationFilter[] { new HangfireStupidAuthorizationFilter() }
+                Authorization = new IDashboardAuthorizationFilter[] { new HangfireAuthenticationFilter() },
+                AppPath = "/Application/Login"
             });
             app.UseHangfireServer();
 
@@ -67,10 +80,11 @@ namespace StudentServisWebScraper.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
-
-            app.UseDefaultFiles();
             app.UseStaticFiles();
+
+            app.UseAuthentication();
+
+            app.UseMvc();
         }
 
         private void ConfigureData(IServiceCollection services)
