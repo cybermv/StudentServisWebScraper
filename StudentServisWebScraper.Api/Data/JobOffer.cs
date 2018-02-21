@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace StudentServisWebScraper.Api.Data
 {
@@ -35,6 +36,7 @@ namespace StudentServisWebScraper.Api.Data
 
         public decimal? HourlyPay { get; set; }
 
+        [IgnoreDataMember]
         public string UniqueText => $"{Category}#{Text}";
 
         public override string ToString()

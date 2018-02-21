@@ -3,6 +3,270 @@
     ViewData["Title"] = "Opis API-a";
 }
 
-<h2>Opis API-a</h2>
+<h2>Dokumentacija API-a</h2>
 
-<h2>Primjeri korištenja</h2>
+<p>Ako želiš sustav kako bi prikazivao poslove u svojoj aplikaciji možeš koristiti ovaj API. Ovdje je opisano sve što treba za korištenje.</p>
+<ul>
+    <li><a href="#apiEndpoints">API endpoints</a></li>
+    <li><a href="#dataStructures">Data structures</a></li>
+    <li><a href="#examples">Examples</a></li>
+</ul>
+
+<h2 id="apiEndpoints" style="padding-top: 50px; margin-top: -50px;">API endpoints</h2>
+<table class="table table-hover table-bordered table-striped" style="font-family:monospace;">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Method</th>
+            <th scope="col">URI</th>
+            <th scope="col">Parameters</th>
+            <th scope="col">Response</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>All jobs</td>
+            <td>GET</td>
+            <td>/api/jobs</td>
+            <td></td>
+            <td>Job[]</td>
+        </tr>
+        <tr>
+            <td>All categories</td>
+            <td>GET</td>
+            <td>/api/jobs/categories</td>
+            <td></td>
+            <td>Category[]</td>
+        </tr>
+        <tr>
+            <td>Single job</td>
+            <td>GET</td>
+            <td>/api/jobs/{jobGuid}</td>
+            <td></td>
+            <td>Job</td>
+        </tr>
+        <tr>
+            <td>Jobs by category</td>
+            <td>GET</td>
+            <td>/api/jobs/category/{categoryId}</td>
+            <td>
+                <ul class="list-parameters">
+                    <li>categoryId - integer Id of the desired category</li>
+                </ul>
+            </td>
+            <td>Job[]</td>
+        </tr>
+        <tr>
+            <td>Jobs by code</td>
+            <td>GET</td>
+            <td>/api/jobs/code/{code}</td>
+            <td>
+                <ul class="list-parameters">
+                    <li>code - integer code of searched jobs - <strong>the code is not a unique identifier!</strong></li>
+                </ul>
+            </td>
+            <td>Job[]</td>
+        </tr>
+        <tr>
+            <td>Jobs filtered</td>
+            <td>GET</td>
+            <td>/api/jobs/filter</td>
+            <td>
+                <ul class="list-parameters">
+                    <li>changedAfter - DateTime; include only jobs changed or added after the given date </li>
+                    <li>contains - string; include only jobs that contain the given text</li>
+                    <li>minHourlyPay - decimal; include only jobs with hourly pay higher or equal to the given amount</li>
+                    <li>categoryId - int; filter by given category</li>
+                    <li>categoryIds - int[]; filter by all given categories</li>
+                    <li>pageSize - int; specifies page size for pagination</li>
+                    <li>pageIndex - int; specifies page index for pagination</li>
+                    <li>excludeNonParsed; excludes jobs which weren't properly parsed (mostly due to bad data, e.g. pay not specified or illegible). defaults to false</li>
+
+                </ul>
+            </td>
+            <td>Job[]</td>
+        </tr>
+        <tr>
+            <td>API status</td>
+            <td>GET</td>
+            <td>/api/jobs/status</td>
+            <td></td>
+            <td>Status</td>
+        </tr>
+    </tbody>
+</table> 
+
+<h2 id="dataStructures" style="padding-top: 50px; margin-top: -50px;">Data structures</h2>
+<div class="row">
+    <div class="col-md-6">
+        <h3>Job</h3>
+        <table class="table table-hover table-bordered table-striped" style="font-family:monospace;">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>id</td>
+                    <td>Guid</td>
+                    <td>Unique identifier of the job in SSWS</td>
+                </tr>
+                <tr>
+                    <td>text</td>
+                    <td>string</td>
+                    <td>Text of the job offer</td>
+                </tr>
+                <tr>
+                    <td>code</td>
+                    <td>int</td>
+                    <td>Code of the job offer</td>
+                </tr>
+                <tr>
+                    <td>dateAdded</td>
+                    <td>DateTime</td>
+                    <td>Date of the first addition of the job to the system</td>
+                </tr>
+                <tr>
+                    <td>dateLastChanged</td>
+                    <td>DateTime</td>
+                    <td>Date of the last discovery of the job on the web page</td>
+                </tr>
+                <tr>
+                    <td>dateRemoved</td>
+                    <td>DateTime</td>
+                    <td>Date when the job was removed from the system</td>
+                </tr>
+                <tr>
+                    <td>contactPhone</td>
+                    <td>string</td>
+                    <td>The telephone number extracted from the job text. May be null.</td>
+                </tr>
+                <tr>
+                    <td>contactEmail</td>
+                    <td>string</td>
+                    <td>The e-mail extracted from the job text. May be null.</td>
+                </tr>
+                <tr>
+                    <td>hourlyPay</td>
+                    <td>decimal</td>
+                    <td>The hourly pay of the job in HRK extracted from the job text. May be null.</td>
+                </tr>
+                
+                <tr>
+                    <td>contactPhone</td>
+                    <td>string</td>
+                    <td>The</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h3>Category</h3>
+        <table class="table table-hover table-bordered table-striped" style="font-family:monospace;">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>id</td>
+                    <td>int</td>
+                    <td>Unique identifier of the category</td>
+                </tr>
+                <tr>
+                    <td>friendlyName</td>
+                    <td>string</td>
+                    <td>Friendly name of the category</td>
+                </tr>
+                <tr>
+                    <td>scrapeName</td>
+                    <td>string</td>
+                    <td>Name of the category used during the scraping process</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+        <h3>Status</h3>
+        <table class="table table-hover table-bordered table-striped" style="font-family:monospace;">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>activeJobCount</td>
+                    <td>int</td>
+                    <td>Current number of active jobs in the system</td>
+                </tr>
+                <tr>
+                    <td>deletedJobCount</td>
+                    <td>int</td>
+                    <td>Number of deleted jobs in the system</td>
+                </tr>
+                <tr>
+                    <td>mostRecentJobDate</td>
+                    <td>int</td>
+                    <td>The date of the newest job added to the system</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<h2 id="examples" style="padding-top: 50px; margin-top: -50px;">Examples</h2>
+<table class="table table-hover table-bordered table-striped" style="font-family:monospace;">
+    <thead>
+        <tr>
+            <th scope="col">URI</th>
+            <th scope="col">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><a target="_blank" href="/api/jobs">/api/jobs</a></td>
+            <td>List all jobs</td>
+        </tr>
+        <tr>
+            <td><a target="_blank" href="/api/jobs/categories">/api/jobs/categories</a></td>
+            <td>List all categories</td>
+        </tr>
+        <tr>
+            <td><a target="_blank" href="/api/jobs/category/7">/api/jobs/category/7</a></td>
+            <td>List all jobs from the category id 5 "Prodaja"</td>
+        </tr>
+        <tr>
+            <td><a target="_blank" href="/api/jobs/filter?changedAfter=2018-02-12T12:08:48.0973607">/api/jobs/filter?changedAfter=2018-02-12T12:08:48.0973607</a></td>
+            <td>List all jobs changed after the given DateTime, 12.02.2018. at 12:08:48</td>
+        </tr>
+        <tr>
+            <td><a target="_blank" href="/api/jobs/filter?contains=konobar&minHourlyPay=25">/api/jobs/filter?contains=konobar&minHourlyPay=25</a></td>
+            <td>List all jobs that contain the string "konobar" and have a hourly pay higher or equal to 25 HRK</td>
+        </tr>
+        <tr>
+            <td><a target="_blank" href="/api/jobs/filter?categoryId=7&minHourlyPay=30">/api/jobs/filter?categoryId=7&minHourlyPay=30</a></td>
+            <td>List all jobs from the category id 7 "Fizički poslovi" with a hourly pay higher or equal to 30 HRK</td>
+        </tr>
+        <tr>
+            <td><a target="_blank" href="/api/jobs/filter?categoryIds=[3,7,9]&minHourlyPay=28&excludeNonParsed=true">/api/jobs/filter?categoryIds=[3,7,9]&minHourlyPay=28&excludeNonParsed=true</a></td>
+            <td>List all jobs from the categories of id 3, 7 and 9, with a hourly pay higher or equal to 28 HRK, and excludes jobs which do not have a hourly pay specified</td>
+        </tr>
+        <tr>
+            <td><a target="_blank" href="/api/jobs/filter?contains=konobar&pageSize=5&pageIndex=2">/api/jobs/filter?contains=konobar&pageSize=5&pageIndex=2</a></td>
+            <td>List jobs that contain the string "konobar", skips the first 10 and takes 5 jobs - pagination for 4th page</td>
+        </tr>
+        <tr>
+            <td><a target="_blank" href="/api/jobs/status">/api/jobs/status</a></td>
+            <td>Returns the brief status of the API</td>
+        </tr>
+    </tbody>
+</table>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StudentServisWebScraper.Api.Data;
 using StudentServisWebScraper.Api.ModelBinding;
 using StudentServisWebScraper.Api.Scraping;
@@ -6,6 +7,7 @@ using StudentServisWebScraper.Api.Scraping.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace StudentServisWebScraper.Api.Controllers
 {
@@ -57,7 +59,7 @@ namespace StudentServisWebScraper.Api.Controllers
             }
         }
 
-        // GET: api/jobs/category/{jobCategory}
+        // GET: api/jobs/category/{categoryId}
         [HttpGet("category/{categoryId}")]
         public List<JobOffer> GetJobsByCategory(int categoryId)
         {
@@ -72,6 +74,19 @@ namespace StudentServisWebScraper.Api.Controllers
                 .Where(j => !j.DateRemoved.HasValue)
                 .OrderByDescending(j => j.DateLastChanged)
                 .Where(j => j.Category.Equals(category.FriendlyName, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            return jobs;
+        }
+
+        // GET: api/jobs/code/{codeId}
+        [HttpGet("code/{codeId}")]
+        public List<JobOffer> GetJobsByCode(int codeId)
+        {
+            List<JobOffer> jobs = this.DataContext.JobOffers
+                .Where(j => !j.DateRemoved.HasValue)
+                .OrderByDescending(j => j.DateLastChanged)
+                .Where(j => j.Code == codeId)
                 .ToList();
 
             return jobs;
@@ -148,19 +163,6 @@ namespace StudentServisWebScraper.Api.Controllers
             }
 
             return jobs.ToList();
-        }
-
-        // GET: api/jobs/code/{codeId}
-        [HttpGet("code/{codeId}")]
-        public List<JobOffer> GetJobsByCode(int codeId)
-        {
-            List<JobOffer> jobs = this.DataContext.JobOffers
-                .Where(j => !j.DateRemoved.HasValue)
-                .OrderByDescending(j => j.DateLastChanged)
-                .Where(j => j.Code == codeId)
-                .ToList();
-
-            return jobs;
         }
 
         // GET: api/jobs/status

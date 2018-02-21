@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StudentServisWebScraper.Api.Controllers
 {
-    [Route("[controller]"), Authorize]
+    [Route("[controller]")]
     public class ApplicationController : Controller
     {
         public ApplicationController(ScraperConfiguration configuration, StudentServisWebScraperDataContext context, ILogger<ApplicationController> logger)
@@ -28,28 +28,42 @@ namespace StudentServisWebScraper.Api.Controllers
 
         // GET: /
         // GET: /Application
-        [HttpGet("/"), HttpGet("/Application"), AllowAnonymous]
+        [HttpGet("/"), HttpGet("/Application")]
         public IActionResult IndexEmpty()
         {
             return RedirectToActionPermanent(nameof(ApplicationController.Index));
         }
 
         // GET: Application/Index
-        [HttpGet("Index"), AllowAnonymous]
+        [HttpGet("Index")]
         public IActionResult Index()
         {
             return View();
         }
 
+        // GET: Application/Jobs
+        [HttpGet("Jobs")]
+        public IActionResult Jobs()
+        {
+            return View();
+        }
+
         // GET: Application/Documentation
-        [HttpGet("Documentation"), AllowAnonymous]
+        [HttpGet("Documentation")]
         public IActionResult Documentation()
         {
             return View();
         }
 
+        // GET: Application/Administration
+        [HttpGet("Administration"), Authorize]
+        public IActionResult Administration()
+        {
+            return View(new AdministrationViewModel());
+        }
+
         // GET: Application/Login
-        [HttpGet("Login"), AllowAnonymous]
+        [HttpGet("Login")]
         public IActionResult Login(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -57,7 +71,7 @@ namespace StudentServisWebScraper.Api.Controllers
         }
 
         // POST: Application/Login
-        [HttpPost("Login"), AllowAnonymous, ValidateAntiForgeryToken]
+        [HttpPost("Login"), ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(
             LoginViewModel model,
             [FromServices] SignInManager<IdentityUser> signInManager,
@@ -84,7 +98,7 @@ namespace StudentServisWebScraper.Api.Controllers
         }
 
         // POST: Application/Logout
-        [HttpPost("Logout"), ValidateAntiForgeryToken]
+        [HttpPost("Logout"), Authorize, ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout([FromServices] SignInManager<IdentityUser> signInManager)
         {
             await signInManager.SignOutAsync();

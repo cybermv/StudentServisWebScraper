@@ -20,7 +20,6 @@ namespace StudentServisWebScraper.Api
         /// <summary>
         /// Configuration building
         /// </summary>
-        /// <param name="env"></param>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -61,10 +60,14 @@ namespace StudentServisWebScraper.Api
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseHangfireDashboard(options: new DashboardOptions
+            app.UseStaticFiles();
+
+            app.UseAuthentication();
+
+            app.UseHangfireDashboard("/Application/Hangfire", options: new DashboardOptions
             {
                 Authorization = new IDashboardAuthorizationFilter[] { new HangfireAuthenticationFilter() },
-                AppPath = "/Application/Login"
+                AppPath = "/Application/Administration"
             });
             app.UseHangfireServer();
 
@@ -79,10 +82,6 @@ namespace StudentServisWebScraper.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseStaticFiles();
-
-            app.UseAuthentication();
 
             app.UseMvc();
         }

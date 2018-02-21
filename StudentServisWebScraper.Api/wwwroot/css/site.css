@@ -33,3 +33,9 @@
         display: none;
     }
 }
+
+.list-parameters {
+    list-style-type: disc;
+    padding-left: 10px;
+    margin: 0;
+}
