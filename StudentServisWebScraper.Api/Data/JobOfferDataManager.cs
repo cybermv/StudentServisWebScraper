@@ -61,12 +61,12 @@ namespace StudentServisWebScraper.Api.Data
             {
                 int count = existingOffers.Count(eo => JobOfferEqualityComparer.Comparer()(eo, offer));
 
-                // the offer is in the database and on the website - update the date
+                // the offer is in the database and on the website - update the last seen date
                 if (count == 1)
                 {
                     JobOffer existing = existingOffers.Single(eo => comparer(eo, offer));
 
-                    existing.DateLastChanged = this.Now;
+                    existing.DateLastSeen = this.Now;
 
                     this.DataContext.Update(existing);
                     existingOffers.Remove(existing);

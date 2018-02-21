@@ -30,7 +30,7 @@ namespace StudentServisWebScraper.Api.Controllers
         {
             List<JobOffer> jobs = this.DataContext.JobOffers
                 .Where(j => !j.DateRemoved.HasValue)
-                .OrderByDescending(j => j.DateLastChanged)
+                .OrderByDescending(j => j.DateLastSeen)
                 .ToList();
 
             return jobs;
@@ -72,7 +72,7 @@ namespace StudentServisWebScraper.Api.Controllers
 
             List<JobOffer> jobs = this.DataContext.JobOffers
                 .Where(j => !j.DateRemoved.HasValue)
-                .OrderByDescending(j => j.DateLastChanged)
+                .OrderByDescending(j => j.DateLastSeen)
                 .Where(j => j.Category.Equals(category.FriendlyName, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
@@ -85,7 +85,7 @@ namespace StudentServisWebScraper.Api.Controllers
         {
             List<JobOffer> jobs = this.DataContext.JobOffers
                 .Where(j => !j.DateRemoved.HasValue)
-                .OrderByDescending(j => j.DateLastChanged)
+                .OrderByDescending(j => j.DateLastSeen)
                 .Where(j => j.Code == codeId)
                 .ToList();
 
@@ -95,7 +95,7 @@ namespace StudentServisWebScraper.Api.Controllers
         // GET: api/jobs/filter
         [HttpGet("filter")]
         public List<JobOffer> GetJobsFiltered(
-            [FromQuery] DateTime? changedAfter,
+            [FromQuery] DateTime? addedAfter,
             [FromQuery] string contains,
             [FromQuery] decimal? minHourlyPay,
             [FromQuery] int? categoryId,
@@ -106,11 +106,11 @@ namespace StudentServisWebScraper.Api.Controllers
         {
             IQueryable<JobOffer> jobs = this.DataContext.JobOffers
                 .Where(j => !j.DateRemoved.HasValue)
-                .OrderByDescending(j => j.DateLastChanged);
+                .OrderByDescending(j => j.DateLastSeen);
 
-            if (changedAfter.HasValue)
+            if (addedAfter.HasValue)
             {
-                jobs = jobs.Where(j => j.DateLastChanged > changedAfter);
+                jobs = jobs.Where(j => j.DateAdded > addedAfter);
             }
 
             if (!string.IsNullOrWhiteSpace(contains))
@@ -173,7 +173,7 @@ namespace StudentServisWebScraper.Api.Controllers
             {
                 ActiveJobCount = this.DataContext.JobOffers.Where(j => !j.DateRemoved.HasValue).Count(),
                 DeletedJobCount = this.DataContext.JobOffers.Where(j => j.DateRemoved.HasValue).Count(),
-                MostRecentJobDate = this.DataContext.JobOffers.OrderByDescending(j => j.DateLastChanged).Select(j => j.DateLastChanged).FirstOrDefault(),
+                MostRecentJobDate = this.DataContext.JobOffers.OrderByDescending(j => j.DateLastSeen).Select(j => j.DateLastSeen).FirstOrDefault(),
             };
         }
     }

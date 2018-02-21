@@ -73,7 +73,7 @@
             <td>/api/jobs/filter</td>
             <td>
                 <ul class="list-parameters">
-                    <li>changedAfter - DateTime; include only jobs changed or added after the given date </li>
+                    <li>addedAfter - DateTime; include only jobs added after the given date </li>
                     <li>contains - string; include only jobs that contain the given text</li>
                     <li>minHourlyPay - decimal; include only jobs with hourly pay higher or equal to the given amount</li>
                     <li>categoryId - int; filter by given category</li>
@@ -130,14 +130,14 @@
                     <td>Date of the first addition of the job to the system</td>
                 </tr>
                 <tr>
-                    <td>dateLastChanged</td>
+                    <td>dateLastSeen</td>
                     <td>DateTime</td>
                     <td>Date of the last discovery of the job on the web page</td>
                 </tr>
                 <tr>
                     <td>dateRemoved</td>
                     <td>DateTime</td>
-                    <td>Date when the job was removed from the system</td>
+                    <td>Date when the job was not found on the web page</td>
                 </tr>
                 <tr>
                     <td>contactPhone</td>
@@ -245,8 +245,8 @@
             <td>List all jobs from the category id 5 "Prodaja"</td>
         </tr>
         <tr>
-            <td><a target="_blank" href="/api/jobs/filter?changedAfter=2018-02-12T12:08:48.0973607">/api/jobs/filter?changedAfter=2018-02-12T12:08:48.0973607</a></td>
-            <td>List all jobs changed after the given DateTime, 12.02.2018. at 12:08:48</td>
+            <td><a target="_blank" href="/api/jobs/filter?addedAfter=2018-02-12T12:08:48.0973607">/api/jobs/filter?changedAfter=2018-02-12T12:08:48.0973607</a></td>
+            <td>List all jobs added after the given DateTime, 12.02.2018. at 12:08:48</td>
         </tr>
         <tr>
             <td><a target="_blank" href="/api/jobs/filter?contains=konobar&minHourlyPay=25">/api/jobs/filter?contains=konobar&minHourlyPay=25</a></td>
