@@ -6,6 +6,9 @@ using Microsoft.Extensions.Logging;
 using StudentServisWebScraper.Api.Data;
 using StudentServisWebScraper.Api.Models;
 using StudentServisWebScraper.Api.Scraping;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace StudentServisWebScraper.Api.Controllers
@@ -59,7 +62,39 @@ namespace StudentServisWebScraper.Api.Controllers
         [HttpGet("Administration"), Authorize]
         public IActionResult Administration()
         {
-            return View(new AdministrationViewModel());
+            List<JobOffer> allOffers = this.DataContext.JobOffers.ToList();
+
+            AdministrationViewModel model = new AdministrationViewModel
+            {
+                TotalActiveCount = allOffers.Count(j => !j.DateRemoved.HasValue),
+                TotalDeletedCount = allOffers.Count(j => j.DateRemoved.HasValue),
+                AverageNewJobsPerDay = allOffers
+                    .GroupBy(j => j.DateAdded, j => j)
+                    .Select(g => new KeyValuePair<DateTime, int>(g.Key, g.Count()))
+                    .Average(kv => kv.Value),
+                AverageDeletedJobsPerDay = allOffers
+                    .Where(j => j.DateRemoved.HasValue)
+                    .GroupBy(j => j.DateRemoved, j => j)
+                    .Select(g => new KeyValuePair<DateTime, int>(g.Key.Value, g.Count()))
+                    .Average(kv => kv.Value),
+                AverageHourlyPay = allOffers
+                    .Where(j => j.HourlyPay.HasValue && j.HourlyPay > 5 && j.HourlyPay.Value < 100) // let's be real
+                    .Average(j => j.HourlyPay.Value),
+                ByCategoryStatistics = allOffers
+                    .GroupBy(j => j.Category)
+                    .Select(g => new JobByCategoryStatistics
+                    {
+                        Category = g.Key,
+                        ActiveCount = g.Count(j => !j.DateRemoved.HasValue),
+                        DeletedCount = g.Count(j => j.DateRemoved.HasValue),
+                        AverageHourlyPay = g
+                            .Where(j => j.HourlyPay.HasValue && j.HourlyPay > 5 && j.HourlyPay.Value < 100) // let's be real
+                            .Average(j => j.HourlyPay.Value)
+                    })
+                    .ToList()
+            };
+
+            return View(model);
         }
 
         // GET: Application/Login

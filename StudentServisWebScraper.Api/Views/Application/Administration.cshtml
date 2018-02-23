@@ -3,8 +3,69 @@
     ViewData["Title"] = "Administration";
 }
 
-<h2>Administration</h2>
+<h2>Administracija</h2>
 
-<a href="/Application/Hangfire">Idi na hangfire dashboard</a>
+<div class="alert alert-info">
+    <h4 class="alert-heading alert-link" style="margin:0;"><a href="/Application/Hangfire">Idi na Hangfire dashboard</a></h4>
+</div>
 
-<p>TODO: U izradi!</p>
+<div class="row">
+    <div class="col-md-5">
+        <h3>Opće statistike</h3>
+        <table class="table table-hover table-bordered table-striped" style="font-family:monospace;">
+            <thead>
+                <tr>
+                    <th scope="col">Statistika</th>
+                    <th scope="col">Vrijednost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ukupno aktivnih poslova</td>
+                    <td>@Model.TotalActiveCount</td>
+                </tr>
+                <tr>
+                    <td>Ukupno neaktivnih poslova</td>
+                    <td>@Model.TotalDeletedCount</td>
+                </tr>
+                <tr>
+                    <td>Prosječna satnica</td>
+                    <td>@Model.AverageHourlyPay.ToString("0.00")</td>
+                </tr>
+                <tr>
+                    <td>Prosječno dnevno dodanih poslova</td>
+                    <td>@Model.AverageNewJobsPerDay.ToString("0.0")</td>
+                </tr>
+                <tr>
+                    <td>Prosječno dnevno obrisanih poslova</td>
+                    <td>@Model.AverageDeletedJobsPerDay.ToString("0.0")</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-7">
+        <h3>Statistike po kategorijama</h3>
+        <table class="table table-hover table-bordered table-striped" style="font-family:monospace;">
+            <thead>
+                <tr>
+                    <th scope="col">Kategorija</th>
+                    <th scope="col">Broj aktivnih</th>
+                    <th scope="col">Broj neaktivnih</th>
+                    <th scope="col">Prosječna satnica</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var jobStat in Model.ByCategoryStatistics)
+                {
+                    <tr>
+                        <td>@jobStat.Category</td>
+                        <td>@jobStat.ActiveCount</td>
+                        <td>@jobStat.DeletedCount</td>
+                        <td class="@(jobStat.AverageHourlyPay > Model.AverageHourlyPay ? "success" : "danger")"><strong>@jobStat.AverageHourlyPay.ToString("0.00")</strong></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
