@@ -14,7 +14,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\MultiLineLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\IJobOfferRepository.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\JobOffersRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\HttpClientJobOffersRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\MockJobOfferRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\JobOfferCell.xaml.cs">
       <SubType>Code</SubType>

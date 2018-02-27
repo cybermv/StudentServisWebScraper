@@ -12,7 +12,7 @@ namespace SSWS.Mobile.Data
             List<JobModel> jobs = new List<JobModel>();
 
             Random r = new Random();
-            string[] categories = { "Rad u skladištima", "Poslovi u ugostiteljstvu", "Poslovi u proizvodnji", "Razni poslovi" };
+            string[] categories = { "M Rad u skladištima", "M Poslovi u ugostiteljstvu", "M Poslovi u proizvodnji", "M Razni poslovi" };
             string[] texts =
             {
                 "/ Promocija HomeOgarden proizvoda. Traži se komunikativna osoba, koja sama prilazi ljudima, poželjna znanja o vrtlarenju, prednost studenti/ice agronomije. Radno vrijeme: petak, subota, nedjelja od 15.02.-15.05.2018. Naknada po satu 25kn. Prijave na: lea.rebrovic@homeogarden.com",
