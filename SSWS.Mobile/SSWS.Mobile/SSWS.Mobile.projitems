@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\IJobOfferRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\HttpClientJobOffersRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\MockJobOfferRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\UserSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\JobOfferCell.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -27,6 +28,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Models\CategoryModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JobModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Settings.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -48,5 +50,8 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\JobOfferDetails.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Views\Settings.xaml" />
   </ItemGroup>
 </Project>
