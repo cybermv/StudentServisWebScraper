@@ -68,6 +68,7 @@ namespace StudentServisWebScraper.Api.Controllers
             {
                 TotalActiveCount = allOffers.Count(j => !j.DateRemoved.HasValue),
                 TotalDeletedCount = allOffers.Count(j => j.DateRemoved.HasValue),
+                TotalUnparsedCount = allOffers.Count(j => !j.HourlyPay.HasValue),
                 AverageNewJobsPerDay = allOffers
                     .GroupBy(j => j.DateAdded, j => j)
                     .Select(g => new KeyValuePair<DateTime, int>(g.Key, g.Count()))
@@ -80,6 +81,8 @@ namespace StudentServisWebScraper.Api.Controllers
                 AverageHourlyPay = allOffers
                     .Where(j => j.HourlyPay.HasValue && j.HourlyPay > 5 && j.HourlyPay.Value < 100) // let's be real
                     .Average(j => j.HourlyPay.Value),
+                AverageJobParsingSuccesses = 100 - 
+                    ((double)allOffers.Count(j => !j.HourlyPay.HasValue) / (double)allOffers.Count * 100),
                 ByCategoryStatistics = allOffers
                     .GroupBy(j => j.Category)
                     .Select(g => new JobByCategoryStatistics

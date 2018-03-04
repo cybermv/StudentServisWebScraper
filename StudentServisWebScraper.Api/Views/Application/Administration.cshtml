@@ -29,6 +29,10 @@
                     <td>@Model.TotalDeletedCount</td>
                 </tr>
                 <tr>
+                    <td>Ukupno neuspješno parsiranih poslova</td>
+                    <td>@Model.TotalUnparsedCount</td>
+                </tr>
+                <tr>
                     <td>Prosječna satnica</td>
                     <td>@Model.AverageHourlyPay.ToString("0.00")</td>
                 </tr>
@@ -39,6 +43,10 @@
                 <tr>
                     <td>Prosječno dnevno obrisanih poslova</td>
                     <td>@Model.AverageDeletedJobsPerDay.ToString("0.0")</td>
+                </tr>
+                <tr>
+                    <td>Uspješnost parsiranja poslova</td>
+                    <td>@Model.AverageJobParsingSuccesses.ToString("0.0%")</td>
                 </tr>
             </tbody>
         </table>

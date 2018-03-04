@@ -9,6 +9,8 @@ namespace StudentServisWebScraper.Api.Models
 
         public int TotalDeletedCount { get; set; }
 
+        public int TotalUnparsedCount { get; set; }
+
         public List<JobByCategoryStatistics> ByCategoryStatistics { get; set; }
 
         public decimal AverageHourlyPay { get; set; }
@@ -16,6 +18,8 @@ namespace StudentServisWebScraper.Api.Models
         public double AverageNewJobsPerDay { get; set; }
 
         public double AverageDeletedJobsPerDay { get; set; }
+
+        public double AverageJobParsingSuccesses { get; set; }
     }
     
     public class JobByCategoryStatistics
