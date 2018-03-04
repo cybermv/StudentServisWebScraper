@@ -81,8 +81,8 @@ namespace StudentServisWebScraper.Api.Controllers
                 AverageHourlyPay = allOffers
                     .Where(j => j.HourlyPay.HasValue && j.HourlyPay > 5 && j.HourlyPay.Value < 100) // let's be real
                     .Average(j => j.HourlyPay.Value),
-                AverageJobParsingSuccesses = 100 - 
-                    ((double)allOffers.Count(j => !j.HourlyPay.HasValue) / (double)allOffers.Count * 100),
+                AverageJobParsingSuccesses = 1 - 
+                    ((double)allOffers.Count(j => !j.HourlyPay.HasValue) / (double)allOffers.Count),
                 ByCategoryStatistics = allOffers
                     .GroupBy(j => j.Category)
                     .Select(g => new JobByCategoryStatistics
