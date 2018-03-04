@@ -14,6 +14,8 @@ namespace StudentServisWebScraper.Api.Scraping
 
         public int ScrapingIntervalMinutes { get; set; }
 
+        public string ScraperType { get; set; }
+
         public CategoryInfo[] Categories { get; set; }
     }
 }

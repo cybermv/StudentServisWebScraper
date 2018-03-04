@@ -2,6 +2,8 @@
   "rootUrl": "http://www.sczg.unizg.hr/",
   "jobOfferUrl": "/student-servis/ponuda-poslova/",
   "scrapingIntervalMinutes": 5,
+  "scraperType": "ScWebpageJobScraper",
+  "scraperType2": "MockJobScraper",
   "categories": [
     {
       "id": 1,

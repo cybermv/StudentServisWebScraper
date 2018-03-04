@@ -114,10 +114,23 @@ namespace StudentServisWebScraper.Api
 
         private void ConfigureSSWSServices(IServiceCollection services)
         {
-            services.AddSingleton(Configuration.Get<ScraperConfiguration>());
+            ScraperConfiguration scraperConfig = Configuration.Get<ScraperConfiguration>();
+            services.AddSingleton(scraperConfig);
 
             services.AddTransient<JobOfferParser>();
-            services.AddTransient<JobScraper>();
+
+            switch (scraperConfig.ScraperType)
+            {
+                case "ScWebpageJobScraper":
+                    services.AddTransient<JobScraper, ScWebpageJobScraper>();
+                    break;
+                case "MockJobScraper":
+                    services.AddTransient<JobScraper, MockJobScraper>();
+                    break;
+                default:
+                    throw new Exception($"Cannot start application without valid scraper type! Given value: {scraperConfig.ScraperType}.");
+            }
+
             services.AddTransient<JobOfferDataManager>();
             services.AddTransient<JobScrapingTask>();
         }
