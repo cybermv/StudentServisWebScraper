@@ -79,7 +79,7 @@ namespace StudentServisWebScraper.Api.Controllers
                     .Select(g => new KeyValuePair<DateTime, int>(g.Key.Value, g.Count()))
                     .Average(kv => kv.Value),
                 AverageHourlyPay = allOffers
-                    .Where(j => j.HourlyPay.HasValue && j.HourlyPay > 5 && j.HourlyPay.Value < 100) // let's be real
+                    .Where(j => j.HourlyPay.HasValue)
                     .Average(j => j.HourlyPay.Value),
                 AverageJobParsingSuccesses = 1 - 
                     ((double)allOffers.Count(j => !j.HourlyPay.HasValue) / (double)allOffers.Count),
@@ -91,7 +91,7 @@ namespace StudentServisWebScraper.Api.Controllers
                         ActiveCount = g.Count(j => !j.DateRemoved.HasValue),
                         DeletedCount = g.Count(j => j.DateRemoved.HasValue),
                         AverageHourlyPay = g
-                            .Where(j => j.HourlyPay.HasValue && j.HourlyPay > 5 && j.HourlyPay.Value < 100) // let's be real
+                            .Where(j => j.HourlyPay.HasValue)
                             .Average(j => j.HourlyPay.Value)
                     })
                     .ToList()

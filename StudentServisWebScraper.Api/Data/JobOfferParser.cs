@@ -88,11 +88,13 @@ namespace StudentServisWebScraper.Api.Data
             if (!matchedHourlyRate.Success)
                 return null;
 
-            return decimal.Parse(Regex.Replace(
+            decimal value = decimal.Parse(Regex.Replace(
                 matchedHourlyRate.Value,
                 "(kn|kuna)",
                 "",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase));
+
+            return value > 5 && value < 150 ? (decimal?)value : null; // let's be real
         }
     }
 }
