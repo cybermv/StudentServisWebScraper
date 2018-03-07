@@ -16,34 +16,16 @@ namespace SSWS.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class JobOffers : ContentPage
     {
-        public ObservableCollection<JobModel> JobOffersCollection { get; set; }
-
         public JobOffers()
         {
             InitializeComponent();
-
-            JobOffersCollection = new ObservableCollection<JobModel>();
-            JobOffersListView.ItemsSource = JobOffersCollection;
         }
 
         protected async override void OnAppearing()
         {
             base.OnAppearing();
+            JobOffersListView.BeginRefresh();
             await LoadJobOffers();
-        }
-
-        private async Task LoadJobOffers()
-        {
-            var repo = DependencyService.Get<IJobOfferRepository>();
-
-            List<JobModel> jobs = await repo.GetJobOffers(new DateTime(2015, 1, 1), new int[] { 1, 2, 3, 7 }, 28);
-
-            JobOffersCollection.Clear();
-
-            foreach (var job in jobs)
-            {
-                JobOffersCollection.Add(job);
-            }
         }
 
         private async void JobOffersListView_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -53,9 +35,7 @@ namespace SSWS.Mobile.Views
             {
                 return;
             }
-
-            //await DisplayAlert("Job tapped", $"A job was tapped, code: {tappedModel.Code}", "OK");
-
+            
             await Navigation.PushAsync(new JobOfferDetails(tappedModel));
 
             ((ListView)sender).SelectedItem = null;
@@ -67,9 +47,28 @@ namespace SSWS.Mobile.Views
             ((ListView)sender).EndRefresh();
         }
 
-        private void Settings_Clicked(object sender, EventArgs e)
+        private async Task Settings_Clicked(object sender, EventArgs e)
         {
+            await Navigation.PushAsync(new SettingsPage());
+        }
 
+        private async Task LoadJobOffers()
+        {
+            IJobOfferRepository jobsRepo = DependencyService.Get<IJobOfferRepository>();
+            UserSettings settings = UserSettings.Load();
+
+            // load all jobs using these filters:
+            // - by selected categories (null or empty array = no filter)
+            // - by the minimum hourly rate
+            List<JobModel> loadedJobs = await jobsRepo.GetJobOffers(
+                new DateTime(1993, 7, 6),
+                settings.SelectedCategories.ToArray(),
+                settings.MinHourlyRate);
+
+            settings.LastRefreshDate = DateTime.Now;
+            UserSettings.Store(settings);
+
+            JobOffersListView.ItemsSource = new ObservableCollection<JobModel>(loadedJobs);
         }
     }
 }

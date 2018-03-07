@@ -13,11 +13,15 @@ namespace SSWS.Mobile.Data
         {
         }
 
+        public string ServiceUrl { get; set; }
+
         public DateTime LastRefreshDate { get; set; }
+
+        public bool AllCategoriesSelected { get; set; }
 
         public List<int> SelectedCategories { get; set; }
 
-        public decimal? MinHourlyRate { get; set; }
+        public decimal MinHourlyRate { get; set; }
 
         public bool ShowNonParsedJobs { get; set; }
 
@@ -30,7 +34,9 @@ namespace SSWS.Mobile.Data
         {
             return new UserSettings
             {
+                ServiceUrl = @"http://ssws.azurewebsites.net/",
                 LastRefreshDate = new DateTime(1993, 7, 6),
+                AllCategoriesSelected = true,
                 SelectedCategories = new List<int>(0),
                 MinHourlyRate = 10, // LOL
                 ShowNonParsedJobs = true,

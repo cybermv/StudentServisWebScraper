@@ -13,6 +13,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\MultiLineLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ITaggableCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TaggableEntryCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TaggableSwitchCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\IJobOfferRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\HttpClientJobOffersRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\MockJobOfferRepository.cs" />
@@ -28,7 +31,9 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Models\CategoryModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JobModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\Settings.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SettingsPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml">
@@ -52,6 +57,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)Views\Settings.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\SettingsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

@@ -11,5 +11,7 @@ namespace SSWS.Mobile.Data
             DateTime? changedAfter = null,
             int[] categoryIds = null,
             decimal? minHourlyPay = null);
+
+        Task<List<CategoryModel>> GetCategories();
     }
 }

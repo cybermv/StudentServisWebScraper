@@ -15,10 +15,16 @@
 
             <x:String x:Key="GeneralPageTitle">Student Servis - poslovi</x:String>
             <x:String x:Key="StrSettings">Postavke</x:String>
+            <x:String x:Key="StrSaveSettings">Spremi promjene</x:String>
             <x:String x:Key="StrCategoriesSelect">Tražene kategorije</x:String>
-            <x:String x:Key="StrCategoriesAll">Odaberi sve</x:String>
-            <x:String x:Key="StrCategoriesNone">Očisti sve</x:String>
-            
+            <x:String x:Key="StrCategoriesAll">Sve kategorije</x:String>
+            <x:String x:Key="StrGeneralSettings">Opće postavke</x:String>
+            <x:String x:Key="StrGeneralMinPay">Minimalna satnica (kn/h)</x:String>
+            <x:String x:Key="StrGeneralNonParsed">Uključi ne-parsirane poslove (bez satnice)</x:String>
+            <x:String x:Key="StrGeneralNotifications">Prikazuj notifikacije o novim poslovima</x:String>
+            <x:String x:Key="StrAboutSection">O aplikaciji</x:String>
+            <x:String x:Key="StrAboutSectionText">Student Servis Web Scraper - plikacija za laku pretragu studentskih poslova. Projekt je izrađen za predmete "Napredne tehnike projektiranja web servisa (.NET)" i "Razvoj mobilnih aplikacija" na Tehničkom Veleučilištu u Zagrebu. Autor je Mateo Velenik.</x:String>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

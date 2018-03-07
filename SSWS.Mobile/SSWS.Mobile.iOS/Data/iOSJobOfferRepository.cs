@@ -16,5 +16,12 @@ namespace SSWS.Mobile.iOS.Data
             IJobOfferRepository repo = new HttpClientJobOffersRepository();
             return await repo.GetJobOffers(changedAfter, categoryIds, minHourlyPay);
         }
+        
+        public Task<List<CategoryModel>> GetCategories()
+        {
+            // TODO: implement for real
+            IJobOfferRepository repo = new HttpClientJobOffersRepository();
+            return repo.GetCategories();
+        }
     }
 }

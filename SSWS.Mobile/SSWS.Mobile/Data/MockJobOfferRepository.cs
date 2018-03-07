@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SSWS.Mobile.Models;
+using System.Linq;
 
 namespace SSWS.Mobile.Data
 {
@@ -42,6 +43,15 @@ namespace SSWS.Mobile.Data
             }
             
             return Task.FromResult(jobs);
+        }
+
+        public Task<List<CategoryModel>> GetCategories()
+        {
+            string[] categories = { "M Rad u skladištima", "M Poslovi u ugostiteljstvu", "M Poslovi u proizvodnji", "M Razni poslovi" };
+
+            return Task.FromResult(categories
+                .Select((c, idx) => new CategoryModel { Id = idx, FriendlyName = c, ScrapeName = c })
+                .ToList());
         }
     }
 }

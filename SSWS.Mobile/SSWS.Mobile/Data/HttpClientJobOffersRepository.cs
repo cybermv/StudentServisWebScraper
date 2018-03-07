@@ -13,7 +13,12 @@ namespace SSWS.Mobile.Data
 {
     public class HttpClientJobOffersRepository : IJobOfferRepository
     {
-        public HttpClientJobOffersRepository() { }
+        private UserSettings settings;
+
+        public HttpClientJobOffersRepository()
+        {
+            this.settings = UserSettings.Load();
+        }
 
         public async Task<List<JobModel>> GetJobOffers(
             DateTime? addedAfter = null,
@@ -52,13 +57,30 @@ namespace SSWS.Mobile.Data
             return jobs;
         }
 
+        public async Task<List<CategoryModel>> GetCategories()
+        {
+            string data = "[]";
+            try
+            {
+                HttpClient client = GetClient();
+                Uri requestUri = new Uri("/api/jobs/categories/");
+                data = await client.GetStringAsync(requestUri);
+            }
+            catch (Exception ex)
+            {
+                string mess = ex.Message;
+            }
+
+            List<CategoryModel> categories = JsonConvert.DeserializeObject<List<CategoryModel>>(data);
+
+            return categories;
+        }
+
         private HttpClient GetClient()
         {
             var client = new HttpClient
             {
-
-                // TODO: load from settings
-                BaseAddress = new Uri(@"http://ssws.azurewebsites.net/")
+                BaseAddress = new Uri(this.settings.ServiceUrl)
             };
 
             client.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue
