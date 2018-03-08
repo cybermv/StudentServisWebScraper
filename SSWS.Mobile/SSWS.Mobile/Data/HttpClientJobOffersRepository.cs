@@ -14,6 +14,7 @@ namespace SSWS.Mobile.Data
     public class HttpClientJobOffersRepository : IJobOfferRepository
     {
         private UserSettings settings;
+        private static HttpClient _httpClientInstance;
 
         public HttpClientJobOffersRepository()
         {
@@ -78,19 +79,18 @@ namespace SSWS.Mobile.Data
 
         private HttpClient GetClient()
         {
-            var client = new HttpClient
+            if (_httpClientInstance == null)
             {
-                BaseAddress = new Uri(this.settings.ServiceUrl)
-            };
+                _httpClientInstance = new HttpClient { BaseAddress = new Uri(this.settings.ServiceUrl) };
+                _httpClientInstance.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue
+                {
+                    NoCache = true,
+                    NoStore = true,
+                    Private = true
+                };
+            }
 
-            client.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue
-            {
-                NoCache = true,
-                NoStore = true,
-                Private = true
-            };
-
-            return client;
+            return _httpClientInstance;
         }
 
         private string ToQueryString(NameValueCollection nvc)

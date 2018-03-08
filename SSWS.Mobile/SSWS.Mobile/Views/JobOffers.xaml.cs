@@ -1,13 +1,9 @@
-﻿using Newtonsoft.Json;
-using SSWS.Mobile.Data;
+﻿using SSWS.Mobile.Data;
 using SSWS.Mobile.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,13 +15,7 @@ namespace SSWS.Mobile.Views
         public JobOffers()
         {
             InitializeComponent();
-        }
-
-        protected async override void OnAppearing()
-        {
-            base.OnAppearing();
             JobOffersListView.BeginRefresh();
-            await LoadJobOffers();
         }
 
         private async void JobOffersListView_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -61,9 +51,8 @@ namespace SSWS.Mobile.Views
             // - by selected categories (null or empty array = no filter)
             // - by the minimum hourly rate
             List<JobModel> loadedJobs = await jobsRepo.GetJobOffers(
-                new DateTime(1993, 7, 6),
-                settings.SelectedCategories.ToArray(),
-                settings.MinHourlyRate);
+                categoryIds: settings.SelectedCategories.ToArray(),
+                minHourlyPay: settings.MinHourlyRate);
 
             settings.LastRefreshDate = DateTime.Now;
             UserSettings.Store(settings);
