@@ -7,20 +7,19 @@
         <TableView HasUnevenRows="True"
                    Intent="Data">
             <TableRoot>
-                <TableSection Title="Tekst oglasa">
+                <TableSection Title="{StaticResource StrDetailJobText}">
                     <ViewCell>
                         <Label Text="{Binding Job.Text}"
                                FontSize="Medium"
                                Margin="10" />
                     </ViewCell>
                 </TableSection>
-                <TableSection Title="Parsirani podaci">
-                    <TextCell Text="Kategorija" Detail="{ Binding Job.Category }" />
-                    <TextCell Text="Oglas postavljen" Detail="{ Binding Job.DateAdded }" />
-                    <TextCell Text="Satnica" Detail="{ Binding Job.HourlyPay, StringFormat='{0} kn/h'}" />
-                    <TextCell Text="Kontakt telefon" Detail="{ Binding Job.ContactPhone }"  />
-                    <TextCell Text="Kontakt e-mail" Detail="{ Binding Job.ContactEmail }" />
-
+                <TableSection Title="{StaticResource StrDetailParsedSection}">
+                    <TextCell Text="{StaticResource StrDetailCategory}" Detail="{ Binding Job.Category }" />
+                    <TextCell Text="{StaticResource StrDetailDateAdded}" Detail="{ Binding Job.DateAdded }" />
+                    <TextCell Text="{StaticResource StrDetailHourlyPay}" Detail="{ Binding Job.HourlyPayFormatted }" />
+                    <TextCell Text="{StaticResource StrDetailContactPhone}" Detail="{ Binding Job.ContactPhone }"  />
+                    <TextCell Text="{StaticResource StrDetailContactEmail}" Detail="{ Binding Job.ContactEmail }" />
                 </TableSection>
             </TableRoot>
         </TableView>

@@ -25,10 +25,9 @@ namespace SSWS.Mobile.Views
             {
                 return;
             }
-            
-            await Navigation.PushAsync(new JobOfferDetails(tappedModel));
 
             ((ListView)sender).SelectedItem = null;
+            await Navigation.PushAsync(new JobOfferDetails(tappedModel));
         }
 
         private async void JobOffersListView_Refreshing(object sender, EventArgs e)
@@ -50,9 +49,11 @@ namespace SSWS.Mobile.Views
             // load all jobs using these filters:
             // - by selected categories (null or empty array = no filter)
             // - by the minimum hourly rate
+            // - show or hide non-parsed jobs
             List<JobModel> loadedJobs = await jobsRepo.GetJobOffers(
                 categoryIds: settings.SelectedCategories.ToArray(),
-                minHourlyPay: settings.MinHourlyRate);
+                minHourlyPay: settings.MinHourlyRate,
+                excludeNonParsed: !settings.ShowNonParsedJobs);
 
             settings.LastRefreshDate = DateTime.Now;
             UserSettings.Store(settings);

@@ -8,7 +8,7 @@ namespace SSWS.Mobile.Data
 {
     public class MockJobOfferRepository : IJobOfferRepository
     {
-        public Task<List<JobModel>> GetJobOffers(DateTime? changedAfter = null, int[] categoryIds = null, decimal? minHourlyPay = null)
+        public Task<List<JobModel>> GetJobOffers(DateTime? changedAfter = null, int[] categoryIds = null, decimal? minHourlyPay = null, bool excludeNonParsed = false)
         {
             List<JobModel> jobs = new List<JobModel>();
 
@@ -25,7 +25,18 @@ namespace SSWS.Mobile.Data
                 "/ Tražimo komunikativne studente/ice koji će zaprimati dolazne pozive i odgovarati na upite kupaca. Satnica iznosi 25,00 Kn. Posao se odvija u uredu u sjedištu tvrtke, u blizini Arena centra. Radno vrijeme je 8 sati dnevno (ponedjeljak – petak od 08:00 do 14:00). Poslati životopis na: kadrovska.sluzba@mozaik-knjiga.hr ili 01/6315-111. Rok prijave: 31.01.2018."
             };
 
-            decimal?[] satnice = { 15, 18, 20, 28, 30, null };
+            decimal?[] satnice;
+
+            if (excludeNonParsed)
+            {
+                satnice = new decimal?[] { 15, 18, 20, 28, 30, 45 };
+            }
+            else
+            {
+                satnice = new decimal?[] { 15, 18, 20, 28, 30, null };
+            }
+
+            
 
             for (int i = 0; i < r.Next(50, 250); i++)
             {

@@ -23,7 +23,15 @@
             <x:String x:Key="StrGeneralNonParsed">Uključi ne-parsirane poslove (bez satnice)</x:String>
             <x:String x:Key="StrGeneralNotifications">Prikazuj notifikacije o novim poslovima</x:String>
             <x:String x:Key="StrAboutSection">O aplikaciji</x:String>
-            <x:String x:Key="StrAboutSectionText">Student Servis Web Scraper - plikacija za laku pretragu studentskih poslova. Projekt je izrađen za predmete "Napredne tehnike projektiranja web servisa (.NET)" i "Razvoj mobilnih aplikacija" na Tehničkom Veleučilištu u Zagrebu. Autor je Mateo Velenik.</x:String>
+            <x:String x:Key="StrAboutSectionText">Student Servis Web Scraper - aplikacija za laku pretragu studentskih poslova. Projekt je izrađen za predmete "Napredne tehnike projektiranja web servisa (.NET)" i "Razvoj mobilnih aplikacija" na Tehničkom Veleučilištu u Zagrebu. Autor je Mateo Velenik.</x:String>
+            <x:String x:Key="StrDetailJobText">Tekst oglasa</x:String>
+            <x:String x:Key="StrDetailParsedSection">Podaci o poslu</x:String>
+            <x:String x:Key="StrDetailCategory">Kategorija</x:String>
+            <x:String x:Key="StrDetailDateAdded">Oglas postavljen</x:String>
+            <x:String x:Key="StrDetailHourlyPay">Satnica</x:String>
+            <x:String x:Key="StrDetailContactPhone">Kontakt telefon</x:String>
+            <x:String x:Key="StrDetailContactEmail">Kontakt e-mail</x:String>
+
 
         </ResourceDictionary>
     </Application.Resources>

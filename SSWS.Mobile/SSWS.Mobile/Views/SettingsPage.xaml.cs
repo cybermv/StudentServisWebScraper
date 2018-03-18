@@ -85,8 +85,9 @@ namespace SSWS.Mobile.Views
                 new TaggableSwitchCell<string>
                 {
                     Text = Localise("StrGeneralNotifications"),
-                    On = _currentSettings.ShowNotifications,
-                    Tag = nameof(_currentSettings.ShowNotifications)
+                    On = false, // TODO: implement, _currentSettings.ShowNotifications,
+                    Tag = nameof(_currentSettings.ShowNotifications),
+                    IsEnabled = false // TODO: implement
                 }
             };
 

@@ -24,7 +24,8 @@ namespace SSWS.Mobile.Data
         public async Task<List<JobModel>> GetJobOffers(
             DateTime? addedAfter = null,
             int[] categoryIds = null,
-            decimal? minHourlyPay = null)
+            decimal? minHourlyPay = null,
+            bool excludeNonParsed = false)
         {
             NameValueCollection queryString = new NameValueCollection();
 
@@ -40,6 +41,11 @@ namespace SSWS.Mobile.Data
             {
                 queryString["minHourlyPay"] = minHourlyPay.ToString();
             }
+            if (excludeNonParsed)
+            {
+                queryString["excludeNonParsed"] = excludeNonParsed.ToString();
+            }
+            
 
             string data = "[]";
             try

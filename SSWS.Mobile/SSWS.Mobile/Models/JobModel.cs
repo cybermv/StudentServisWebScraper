@@ -28,6 +28,8 @@ namespace SSWS.Mobile.Models
 
         public string TextShortened => Text.Substring(0, Math.Min(60, Text.Length)) + "...";
 
-        public string Caption => HourlyPay.HasValue ? HourlyPay.Value + " kn/h" : "";
+        public string Caption => HourlyPay.HasValue ? $"{HourlyPay.Value} kn/h" : "";
+
+        public string HourlyPayFormatted => HourlyPay.HasValue ? $"{HourlyPay.Value} kn/h" : "";
     }
 }

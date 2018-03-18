@@ -10,7 +10,8 @@ namespace SSWS.Mobile.Data
         Task<List<JobModel>> GetJobOffers(
             DateTime? changedAfter = null,
             int[] categoryIds = null,
-            decimal? minHourlyPay = null);
+            decimal? minHourlyPay = null,
+            bool excludeNonParsed = false);
 
         Task<List<CategoryModel>> GetCategories();
     }
