@@ -9,17 +9,15 @@
             <TableRoot>
                 <TableSection Title="{StaticResource StrDetailJobText}">
                     <ViewCell>
-                        <Label Text="{Binding Job.Text}"
-                               FontSize="Medium"
-                               Margin="10" />
+                        <Label Text="{Binding Job.Text}" FontSize="Medium" Margin="10" />
                     </ViewCell>
                 </TableSection>
                 <TableSection Title="{StaticResource StrDetailParsedSection}">
                     <TextCell Text="{StaticResource StrDetailCategory}" Detail="{ Binding Job.Category }" />
                     <TextCell Text="{StaticResource StrDetailDateAdded}" Detail="{ Binding Job.DateAdded }" />
                     <TextCell Text="{StaticResource StrDetailHourlyPay}" Detail="{ Binding Job.HourlyPayFormatted }" />
-                    <TextCell Text="{StaticResource StrDetailContactPhone}" Detail="{ Binding Job.ContactPhone }"  />
-                    <TextCell Text="{StaticResource StrDetailContactEmail}" Detail="{ Binding Job.ContactEmail }" />
+                    <TextCell Text="{StaticResource StrDetailContactPhone}" Detail="{ Binding Job.ContactPhone }" Tapped="ContactPhone_Tapped" />
+                    <TextCell Text="{StaticResource StrDetailContactEmail}" Detail="{ Binding Job.ContactEmail }" Tapped="ContactEmail_Tapped" />
                 </TableSection>
             </TableRoot>
         </TableView>

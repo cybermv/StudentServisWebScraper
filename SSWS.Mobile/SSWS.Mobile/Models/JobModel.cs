@@ -30,6 +30,6 @@ namespace SSWS.Mobile.Models
 
         public string Caption => HourlyPay.HasValue ? $"{HourlyPay.Value} kn/h" : "";
 
-        public string HourlyPayFormatted => HourlyPay.HasValue ? $"{HourlyPay.Value} kn/h" : "";
+        public string HourlyPayFormatted => HourlyPay.HasValue ? $"{HourlyPay.Value} kn" : "";
     }
 }
