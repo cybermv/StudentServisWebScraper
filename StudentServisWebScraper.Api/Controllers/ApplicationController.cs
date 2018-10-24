@@ -70,13 +70,13 @@ namespace StudentServisWebScraper.Api.Controllers
                 TotalDeletedCount = allOffers.Count(j => j.DateRemoved.HasValue),
                 TotalUnparsedCount = allOffers.Count(j => !j.HourlyPay.HasValue),
                 AverageNewJobsPerDay = allOffers
-                    .GroupBy(j => j.DateAdded, j => j)
+                    .GroupBy(j => j.DateAdded.Date, j => j)
                     .Select(g => new KeyValuePair<DateTime, int>(g.Key, g.Count()))
                     .Average(kv => kv.Value),
                 AverageDeletedJobsPerDay = allOffers
                     .Where(j => j.DateRemoved.HasValue)
-                    .GroupBy(j => j.DateRemoved, j => j)
-                    .Select(g => new KeyValuePair<DateTime, int>(g.Key.Value, g.Count()))
+                    .GroupBy(j => j.DateRemoved.Value.Date, j => j)
+                    .Select(g => new KeyValuePair<DateTime, int>(g.Key, g.Count()))
                     .Average(kv => kv.Value),
                 AverageHourlyPay = allOffers
                     .Where(j => j.HourlyPay.HasValue)
