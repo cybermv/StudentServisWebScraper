@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SSWS.Mobile.Models;
 using System.Linq;
+using SSWS.Mobile.Data.Interfaces;
 
 namespace SSWS.Mobile.Data
 {

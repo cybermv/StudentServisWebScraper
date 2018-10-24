@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SSWS.Mobile.Data
+namespace SSWS.Mobile.Data.Interfaces
 {
     public interface IJobOfferRepository
     {

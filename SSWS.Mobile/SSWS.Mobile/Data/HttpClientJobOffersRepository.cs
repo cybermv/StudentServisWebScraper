@@ -4,22 +4,17 @@ using System;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Collections.Specialized;
+using SSWS.Mobile.Data.Interfaces;
+using SSWS.Mobile.Data;
 
+[assembly: Xamarin.Forms.Dependency(typeof(HttpClientJobOffersRepository))]
 namespace SSWS.Mobile.Data
 {
     public class HttpClientJobOffersRepository : IJobOfferRepository
     {
-        private UserSettings settings;
-        private static HttpClient _httpClientInstance;
-
-        public HttpClientJobOffersRepository()
-        {
-            this.settings = UserSettings.Load();
-        }
+        private const string serviceUrl = "http://ssws.azurewebsites.net/";
 
         public async Task<List<JobModel>> GetJobOffers(
             DateTime? addedAfter = null,
@@ -50,7 +45,7 @@ namespace SSWS.Mobile.Data
             string data = "[]";
             try
             {
-                HttpClient client = GetClient();
+                HttpClient client = HttpClientProvider.GetClient(serviceUrl);
                 Uri requestUri = new Uri("/api/jobs/filter" + ToQueryString(queryString));
                 data = await client.GetStringAsync(requestUri);
             }
@@ -69,7 +64,7 @@ namespace SSWS.Mobile.Data
             string data = "[]";
             try
             {
-                HttpClient client = GetClient();
+                HttpClient client = HttpClientProvider.GetClient(serviceUrl);
                 Uri requestUri = new Uri("/api/jobs/categories/");
                 data = await client.GetStringAsync(requestUri);
             }
@@ -81,22 +76,6 @@ namespace SSWS.Mobile.Data
             List<CategoryModel> categories = JsonConvert.DeserializeObject<List<CategoryModel>>(data);
 
             return categories;
-        }
-
-        private HttpClient GetClient()
-        {
-            if (_httpClientInstance == null)
-            {
-                _httpClientInstance = new HttpClient { BaseAddress = new Uri(this.settings.ServiceUrl) };
-                _httpClientInstance.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue
-                {
-                    NoCache = true,
-                    NoStore = true,
-                    Private = true
-                };
-            }
-
-            return _httpClientInstance;
         }
 
         private string ToQueryString(NameValueCollection nvc)

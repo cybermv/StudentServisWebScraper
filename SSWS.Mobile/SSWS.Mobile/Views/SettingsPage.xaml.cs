@@ -1,5 +1,6 @@
 ﻿using SSWS.Mobile.Controls;
 using SSWS.Mobile.Data;
+using SSWS.Mobile.Data.Interfaces;
 using SSWS.Mobile.Models;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,11 @@ namespace SSWS.Mobile.Views
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            _currentSettings = UserSettings.Load();
+            IUserSettingsStore settingsStore = DependencyService.Get<IUserSettingsStore>();
+            IUserIdProvider idProvider = DependencyService.Get<IUserIdProvider>();
+            string id = idProvider.GetUserId();
+
+            _currentSettings = settingsStore.LoadSettings(id);
             this.Content = await SetUpTableLayout();
         }
 
@@ -181,7 +186,11 @@ namespace SSWS.Mobile.Views
         private async void SaveSettings_Clicked(object sender, EventArgs e)
         {
             CollectChanges();
-            UserSettings.Store(_currentSettings);
+            IUserSettingsStore settingsStore = DependencyService.Get<IUserSettingsStore>();
+            IUserIdProvider idProvider = DependencyService.Get<IUserIdProvider>();
+            string id = idProvider.GetUserId();
+
+            settingsStore.SaveSettings(id, _currentSettings);
             await Navigation.PopToRootAsync();
         }
 

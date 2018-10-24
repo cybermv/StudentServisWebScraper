@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using SSWS.Mobile.Data;
 using SSWS.Mobile.Models;
 using SSWS.Mobile.Droid.Data;
+using SSWS.Mobile.Data.Interfaces;
 
 [assembly: Xamarin.Forms.Dependency(typeof(AndroidJobOfferRepository))]
 namespace SSWS.Mobile.Droid.Data

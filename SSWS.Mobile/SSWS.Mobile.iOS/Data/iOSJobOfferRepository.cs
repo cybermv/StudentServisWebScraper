@@ -4,6 +4,7 @@ using SSWS.Mobile.Data;
 using SSWS.Mobile.Models;
 using System.Threading.Tasks;
 using SSWS.Mobile.iOS.Data;
+using SSWS.Mobile.Data.Interfaces;
 
 [assembly: Xamarin.Forms.Dependency(typeof(iOSJobOfferRepository))]
 namespace SSWS.Mobile.iOS.Data

@@ -1,4 +1,5 @@
 ﻿using SSWS.Mobile.Data;
+using SSWS.Mobile.Data.Interfaces;
 using SSWS.Mobile.Models;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,10 @@ namespace SSWS.Mobile.Views
         private async Task LoadJobOffers()
         {
             IJobOfferRepository jobsRepo = DependencyService.Get<IJobOfferRepository>();
-            UserSettings settings = UserSettings.Load();
+            IUserSettingsStore settingsStore = DependencyService.Get<IUserSettingsStore>();
+            IUserIdProvider idProvider = DependencyService.Get<IUserIdProvider>();
+            string id = idProvider.GetUserId();
+            UserSettings settings = settingsStore.LoadSettings(id);
 
             // load all jobs using these filters:
             // - by selected categories (null or empty array = no filter)
@@ -56,7 +60,7 @@ namespace SSWS.Mobile.Views
                 excludeNonParsed: !settings.ShowNonParsedJobs);
 
             settings.LastRefreshDate = DateTime.Now;
-            UserSettings.Store(settings);
+            settingsStore.SaveSettings(id, settings);
 
             JobOffersListView.ItemsSource = new ObservableCollection<JobModel>(loadedJobs);
         }

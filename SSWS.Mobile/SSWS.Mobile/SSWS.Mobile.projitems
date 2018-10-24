@@ -16,9 +16,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ITaggableCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TaggableEntryCell.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TaggableSwitchCell.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\IJobOfferRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\HttpClientProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\HttpClientUserSettingsStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Interfaces\IJobOfferRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\HttpClientJobOffersRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Interfaces\IUserIdProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Interfaces\IUserSettingsStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\LocalStorageUserSettingsStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\MockJobOfferRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\RandomUniqueUserIdProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\UserSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\JobOfferCell.xaml.cs">
       <SubType>Code</SubType>
