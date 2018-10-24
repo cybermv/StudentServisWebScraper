@@ -11,9 +11,10 @@ using System;
 namespace StudentServisWebScraper.Api.Migrations
 {
     [DbContext(typeof(StudentServisWebScraperDataContext))]
-    partial class StudentServisWebScraperDataContextModelSnapshot : ModelSnapshot
+    [Migration("20181024172540_AddedUserSettings")]
+    partial class AddedUserSettings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

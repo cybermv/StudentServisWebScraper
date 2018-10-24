@@ -14,6 +14,8 @@ namespace StudentServisWebScraper.Api.Data
 
         public DbSet<JobOffer> JobOffers { get; set; }
 
+        public DbSet<UserSettings> UserSettings { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
