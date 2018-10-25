@@ -21,14 +21,20 @@ namespace StudentServisWebScraper.Api.Controllers
 
         // GET: api/usersettings/{id}
         [HttpGet("{id}")]
-        public UserSettingsViewModel Get(string id)
+        public ObjectResult Get(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return StatusCode((int)HttpStatusCode.BadRequest, null);
+            }
+
             UserSettings settings = this.DataContext.UserSettings
                 .SingleOrDefault(s => string.Equals(s.UserIdentifier, id, StringComparison.OrdinalIgnoreCase));
 
             if (settings != null)
             {
-                return JsonConvert.DeserializeObject<UserSettingsViewModel>(settings.SettingsJson);
+                UserSettingsViewModel model = JsonConvert.DeserializeObject<UserSettingsViewModel>(settings.SettingsJson);
+                return StatusCode((int)HttpStatusCode.OK, model);
             }
             else
             {
@@ -41,16 +47,21 @@ namespace StudentServisWebScraper.Api.Controllers
                     ShowNonParsedJobs = true,
                     ShowNotifications = true
                 };
-                return initialSettings;
+                return StatusCode((int)HttpStatusCode.OK, initialSettings);
             }
         }
 
         // POST: api/usersettings/{id}
         [HttpPost("{id}")]
-        public StatusCodeResult Post([FromQuery] string id, [FromBody] UserSettingsViewModel model)
+        public StatusCodeResult Post([FromRoute] string id, [FromBody] UserSettingsViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return StatusCode((int)HttpStatusCode.BadRequest);
+            }
+
             UserSettings settings = this.DataContext.UserSettings
-                .SingleOrDefault(s => string.Equals(s.UserIdentifier, id, StringComparison.OrdinalIgnoreCase));
+                .SingleOrDefault(s => s.UserIdentifier == id);
 
             if (settings == null)
             {
