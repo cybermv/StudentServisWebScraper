@@ -14,8 +14,6 @@ namespace SSWS.Mobile.Data
 {
     public class HttpClientJobOffersRepository : IJobOfferRepository
     {
-        private const string serviceUrl = "http://ssws.azurewebsites.net/";
-
         public async Task<List<JobModel>> GetJobOffers(
             DateTime? addedAfter = null,
             int[] categoryIds = null,
@@ -45,7 +43,7 @@ namespace SSWS.Mobile.Data
             string data = "[]";
             try
             {
-                HttpClient client = HttpClientProvider.GetClient(serviceUrl);
+                HttpClient client = HttpClientProvider.GetClient();
                 Uri requestUri = new Uri("/api/jobs/filter" + ToQueryString(queryString));
                 data = await client.GetStringAsync(requestUri);
             }
@@ -64,7 +62,7 @@ namespace SSWS.Mobile.Data
             string data = "[]";
             try
             {
-                HttpClient client = HttpClientProvider.GetClient(serviceUrl);
+                HttpClient client = HttpClientProvider.GetClient();
                 Uri requestUri = new Uri("/api/jobs/categories/");
                 data = await client.GetStringAsync(requestUri);
             }

@@ -5,6 +5,10 @@ namespace SSWS.Mobile.Data
 {
     public class UserSettings
     {
+        public string Username { get; set; }
+
+        public string PhoneNumber { get; set; }
+
         public DateTime LastRefreshDate { get; set; }
 
         public bool AllCategoriesSelected { get; set; }

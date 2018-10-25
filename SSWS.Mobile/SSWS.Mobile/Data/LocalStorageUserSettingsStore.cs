@@ -3,9 +3,10 @@ using SSWS.Mobile.Data;
 using SSWS.Mobile.Data.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
-[assembly: Xamarin.Forms.Dependency(typeof(LocalStorageUserSettingsStore))]
+//[assembly: Xamarin.Forms.Dependency(typeof(LocalStorageUserSettingsStore))]
 namespace SSWS.Mobile.Data
 {
     public class LocalStorageUserSettingsStore : IUserSettingsStore
@@ -28,7 +29,7 @@ namespace SSWS.Mobile.Data
             };
         }
 
-        public UserSettings LoadSettings(string _)
+        public Task<UserSettings> LoadSettings(string _)
         {
             IDictionary<string, object> storage = Application.Current.Properties;
 
@@ -36,22 +37,30 @@ namespace SSWS.Mobile.Data
             {
                 UserSettings firstSettings = GetInitialSettings();
                 SaveSettings(_, firstSettings);
-                return firstSettings;
+                return Task.FromResult(firstSettings);
             }
 
             string settingsJson = (string)storage[ApplicationPropertiesKey];
             UserSettings settings = JsonConvert.DeserializeObject<UserSettings>(settingsJson);
 
-            return settings;
+            return Task.FromResult(settings);
         }
 
-        public bool SaveSettings(string _, UserSettings settings)
+        public Task<bool> SaveSettings(string _, UserSettings settings)
         {
             IDictionary<string, object> storage = Application.Current.Properties;
             string settingsJson = JsonConvert.SerializeObject(settings);
 
             storage[ApplicationPropertiesKey] = settingsJson;
-            return true;
+            return Task.FromResult(true);
         }
+
+        public Task<bool> ClearSettings(string id)
+        {
+            IDictionary<string, object> storage = Application.Current.Properties;
+            storage.Remove(ApplicationPropertiesKey);
+            return Task.FromResult(true);
+        }
+
     }
 }

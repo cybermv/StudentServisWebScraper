@@ -19,9 +19,15 @@ namespace SSWS.Mobile.Views
 
         private TableSection _categoriesSection;
         private TableSection _generalSection;
+        private TableSection _userDataSection;
 
-        public SettingsPage()
+        private ListView _jobOffersList;
+        private bool _confirmGdprErase;
+
+        public SettingsPage(ListView jobOffersList)
         {
+            _jobOffersList = jobOffersList;
+            _confirmGdprErase = false;
             InitializeComponent();
         }
 
@@ -30,9 +36,8 @@ namespace SSWS.Mobile.Views
             base.OnAppearing();
             IUserSettingsStore settingsStore = DependencyService.Get<IUserSettingsStore>();
             IUserIdProvider idProvider = DependencyService.Get<IUserIdProvider>();
-            string id = idProvider.GetUserId();
-
-            _currentSettings = settingsStore.LoadSettings(id);
+            string id = idProvider.Get();// TODO CHECK EXISTS
+            _currentSettings = await settingsStore.LoadSettings(id);
             this.Content = await SetUpTableLayout();
         }
 
@@ -96,6 +101,47 @@ namespace SSWS.Mobile.Views
                 }
             };
 
+            _userDataSection = new TableSection(Localise("StrUserDataSection"))
+            {
+                new TaggableEntryCell<string>
+                {
+                    Label = Localise("StrUserDataUsername"),
+                    Keyboard = Keyboard.Text,
+                    Text = _currentSettings.Username,
+                    Tag = nameof(_currentSettings.Username)
+                },
+                new TaggableEntryCell<string>
+                {
+                    Label = Localise("StrUserDataPhoneNumber"),
+                    Keyboard = Keyboard.Telephone,
+                    Text = _currentSettings.PhoneNumber,
+                    Tag = nameof(_currentSettings.PhoneNumber)
+                },
+            };
+
+            Button gdprErase = new Button
+            {
+                Text = Localise("StrGdprErase"),
+                Margin = 10
+            };
+            gdprErase.Clicked += GdprErase_Clicked;
+
+            TableSection gdprSection = new TableSection(Localise("StrGdprSection"))
+            {
+                new ViewCell
+                {
+                    View = new Label
+                    {
+                        Text = Localise("StrGdprSectionText"),
+                        Margin = 10
+                    },
+                },
+                new ViewCell
+                {
+                    View = gdprErase
+                }
+            };
+            
             TableSection aboutSection = new TableSection(Localise("StrAboutSection"))
             {
                 new ViewCell
@@ -114,13 +160,37 @@ namespace SSWS.Mobile.Views
                 {
                     _generalSection,
                     _categoriesSection,
+                    _userDataSection,
+                    gdprSection,
                     aboutSection
                 },
                 Intent = TableIntent.Settings,
                 HasUnevenRows = true
             };
         }
+        
+        private async void GdprErase_Clicked(object sender, EventArgs e)
+        {
+            Button thisBtn = (Button)sender;
 
+            if (!_confirmGdprErase)
+            {
+                _confirmGdprErase = true;
+                thisBtn.Text = Localise("StrGdprEraseConfirm");
+                thisBtn.BackgroundColor = Color.Red;
+                return;
+            }
+
+            IUserSettingsStore settingsStore = DependencyService.Get<IUserSettingsStore>();
+            IUserIdProvider idProvider = DependencyService.Get<IUserIdProvider>();
+            string id = idProvider.Get();
+            await settingsStore.ClearSettings(id);
+            idProvider.Clear();
+
+            _jobOffersList.BeginRefresh();
+            await Navigation.PopAsync();
+        }
+        
         private void CollectChanges()
         {
             // categories
@@ -157,7 +227,13 @@ namespace SSWS.Mobile.Views
                 .OfType<TaggableSwitchCell<string>>()
                 .Single(c => c.Tag == nameof(_currentSettings.ShowNonParsedJobs)).On;
 
+            _currentSettings.Username = _userDataSection
+                .OfType<TaggableEntryCell<string>>()
+                .Single(c => c.Tag == nameof(_currentSettings.Username)).Text;
 
+            _currentSettings.PhoneNumber = _userDataSection
+                .OfType<TaggableEntryCell<string>>()
+                .Single(c => c.Tag == nameof(_currentSettings.PhoneNumber)).Text;
         }
 
         private void AllSelect_OnChanged(object sender, ToggledEventArgs e)
@@ -188,9 +264,9 @@ namespace SSWS.Mobile.Views
             CollectChanges();
             IUserSettingsStore settingsStore = DependencyService.Get<IUserSettingsStore>();
             IUserIdProvider idProvider = DependencyService.Get<IUserIdProvider>();
-            string id = idProvider.GetUserId();
+            string id = idProvider.Get();// TODO CHECK EXISTS
+            await settingsStore.SaveSettings(id, _currentSettings);
 
-            settingsStore.SaveSettings(id, _currentSettings);
             await Navigation.PopToRootAsync();
         }
 

@@ -39,7 +39,7 @@ namespace SSWS.Mobile.Views
 
         private async Task Settings_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new SettingsPage());
+            await Navigation.PushAsync(new SettingsPage(this.JobOffersListView));
         }
 
         private async Task LoadJobOffers()
@@ -47,8 +47,17 @@ namespace SSWS.Mobile.Views
             IJobOfferRepository jobsRepo = DependencyService.Get<IJobOfferRepository>();
             IUserSettingsStore settingsStore = DependencyService.Get<IUserSettingsStore>();
             IUserIdProvider idProvider = DependencyService.Get<IUserIdProvider>();
-            string id = idProvider.GetUserId();
-            UserSettings settings = settingsStore.LoadSettings(id);
+
+            if (!idProvider.Exists())
+            {
+                // user is not registered
+                RegistrationPage registration = new RegistrationPage(this.JobOffersListView);
+                await Navigation.PushModalAsync(registration);
+                return;
+            }
+
+            string id = idProvider.Get();
+            UserSettings settings = await settingsStore.LoadSettings(id);
 
             // load all jobs using these filters:
             // - by selected categories (null or empty array = no filter)
@@ -60,7 +69,7 @@ namespace SSWS.Mobile.Views
                 excludeNonParsed: !settings.ShowNonParsedJobs);
 
             settings.LastRefreshDate = DateTime.Now;
-            settingsStore.SaveSettings(id, settings);
+            await settingsStore.SaveSettings(id, settings);
 
             JobOffersListView.ItemsSource = new ObservableCollection<JobModel>(loadedJobs);
         }

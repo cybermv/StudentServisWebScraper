@@ -31,7 +31,17 @@
             <x:String x:Key="StrDetailHourlyPay">Satnica</x:String>
             <x:String x:Key="StrDetailContactPhone">Kontakt telefon</x:String>
             <x:String x:Key="StrDetailContactEmail">Kontakt e-mail</x:String>
-
+            <x:String x:Key="StrGdprSection">Opća uredba o zaštiti podataka (GDPR)</x:String>
+            <x:String x:Key="StrGdprSectionText">Korisnik aplikacije ima pravo u bilo kojem trenutku opozvati svoj pristanak na dijeljenje podataka i obrisati svoj profil i osobne podatke spremljene na serveru aplikacije. Pritiskom na donji gumb briše se korisnički profil:</x:String>
+            <x:String x:Key="StrGdprErase">Obriši korisnički profil</x:String>
+            <x:String x:Key="StrGdprEraseConfirm">Potvrdi brisanje profila</x:String>
+            <x:String x:Key="StrUserDataSection">Osobni podaci</x:String>
+            <x:String x:Key="StrUserDataUsername">Ime i prezime</x:String>
+            <x:String x:Key="StrUserDataPhoneNumber">Broj telefona</x:String>
+            <x:String x:Key="StrRegisterTitle">Dobro došli u aplikaciju Student Servis Poslovi!</x:String>
+            <x:String x:Key="StrRegisterText">Korištenje aplikacije je besplatno i nema reklama. Za svrhu poboljšanja usluge i praćenje statistike korištenja aplikacija pohranjuje korisničke filtre. Ispunite polja za ime i prezime te broj telefona te krenite s korištenjem aplikacije!</x:String>
+            <x:String x:Key="StrRegisterConfirmText">Prihvaćam uvjete korištenja</x:String>
+            <x:String x:Key="StrRegisterConfirmTextError">Potrebno je ispuniti podatke</x:String>
 
         </ResourceDictionary>
     </Application.Resources>

@@ -6,9 +6,12 @@ namespace SSWS.Mobile.Data
 {
     public static class HttpClientProvider
     {
-        public static HttpClient GetClient(string baseUrl)
+        // TODO - move to config?
+        private const string serviceUrl = "http://ssws.azurewebsites.net/";
+
+        public static HttpClient GetClient()
         {
-            HttpClient instance = new HttpClient { BaseAddress = new Uri(baseUrl) };
+            HttpClient instance = new HttpClient { BaseAddress = new Uri(serviceUrl) };
             instance.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue
             {
                 NoCache = true,

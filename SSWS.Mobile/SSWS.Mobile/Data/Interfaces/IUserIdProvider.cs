@@ -2,6 +2,12 @@
 {
     public interface IUserIdProvider
     {
-        string GetUserId();
+        bool Exists();
+
+        void Set(string id);
+
+        string Get();
+
+        void Clear();
     }
 }

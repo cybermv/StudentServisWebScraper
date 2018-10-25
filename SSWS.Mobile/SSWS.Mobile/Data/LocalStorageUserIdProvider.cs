@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
-//[assembly: Xamarin.Forms.Dependency(typeof(RandomUniqueUserIdProvider))]
+[assembly: Xamarin.Forms.Dependency(typeof(LocalStorageUserIdProvider))]
 namespace SSWS.Mobile.Data
 {
-    public class RandomUniqueUserIdProvider : IUserIdProvider
+    public class LocalStorageUserIdProvider : IUserIdProvider
     {
         public const string ApplicationPropertiesKey = "SSWS.UserId";
 
@@ -21,7 +21,7 @@ namespace SSWS.Mobile.Data
         {
             if (!Exists())
             {
-                Set($"SSWS-{Guid.NewGuid()}");
+                throw new InvalidOperationException("The id for this instance is not set!");
             }
             IDictionary<string, object> storage = Application.Current.Properties;
             return storage[ApplicationPropertiesKey].ToString();
@@ -29,12 +29,20 @@ namespace SSWS.Mobile.Data
 
         public void Set(string id)
         {
+            if (Exists())
+            {
+                throw new InvalidOperationException("The id for this instance is already set!");
+            }
             IDictionary<string, object> storage = Application.Current.Properties;
             storage[ApplicationPropertiesKey] = id;
         }
 
         public void Clear()
         {
+            if (!Exists())
+            {
+                throw new InvalidOperationException("The id for this instance is not set!");
+            }
             IDictionary<string, object> storage = Application.Current.Properties;
             storage.Remove(ApplicationPropertiesKey);
         }

@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\HttpClientJobOffersRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\Interfaces\IUserIdProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\Interfaces\IUserSettingsStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\LocalStorageUserIdProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\LocalStorageUserSettingsStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\MockJobOfferRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\RandomUniqueUserIdProvider.cs" />
@@ -37,6 +38,9 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Models\CategoryModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JobModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\RegistrationPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\SettingsPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -64,6 +68,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\SettingsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\RegistrationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
