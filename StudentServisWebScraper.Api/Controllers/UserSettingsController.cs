@@ -82,5 +82,28 @@ namespace StudentServisWebScraper.Api.Controllers
 
             return StatusCode((int)(success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError));
         }
+
+        // DELETE: api/usersettings/{id}
+        [HttpDelete("{id}")]
+        public StatusCodeResult Delete(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return StatusCode((int)HttpStatusCode.BadRequest);
+            }
+
+            UserSettings settings = this.DataContext.UserSettings
+                .SingleOrDefault(s => string.Equals(s.UserIdentifier, id, StringComparison.OrdinalIgnoreCase));
+
+            if (settings == null)
+            {
+                return StatusCode((int)HttpStatusCode.NotFound);
+            }
+
+            this.DataContext.UserSettings.Remove(settings);
+            bool success = this.DataContext.SaveChanges() > 0;
+
+            return StatusCode((int)(success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError));
+        }
     }
 }
