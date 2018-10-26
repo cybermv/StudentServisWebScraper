@@ -180,6 +180,7 @@ namespace SSWS.Mobile.Views
                 thisBtn.BackgroundColor = Color.Red;
                 return;
             }
+            thisBtn.IsEnabled = false;
 
             IUserSettingsStore settingsStore = DependencyService.Get<IUserSettingsStore>();
             IUserIdProvider idProvider = DependencyService.Get<IUserIdProvider>();

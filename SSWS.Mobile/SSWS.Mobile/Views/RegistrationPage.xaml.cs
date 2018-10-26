@@ -79,6 +79,7 @@ namespace SSWS.Mobile.Views
 
         private async void ConfirmBtn_Clicked(object sender, EventArgs e)
         {
+            ((Button)sender).IsEnabled = false;
             IUserIdProvider idProvider = DependencyService.Get<IUserIdProvider>();
             IUserSettingsStore settingsStore = DependencyService.Get<IUserSettingsStore>();
 
