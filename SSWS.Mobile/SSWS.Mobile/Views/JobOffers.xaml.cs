@@ -68,7 +68,7 @@ namespace SSWS.Mobile.Views
                 minHourlyPay: settings.MinHourlyRate,
                 excludeNonParsed: !settings.ShowNonParsedJobs);
 
-            settings.LastRefreshDate = DateTime.Now;
+            settings.LastRefreshDate = DateTime.UtcNow;
             await settingsStore.SaveSettings(id, settings);
 
             JobOffersListView.ItemsSource = new ObservableCollection<JobModel>(loadedJobs);

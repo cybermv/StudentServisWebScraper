@@ -173,7 +173,7 @@ namespace StudentServisWebScraper.Api.Controllers
             {
                 ActiveJobCount = this.DataContext.JobOffers.Where(j => !j.DateRemoved.HasValue).Count(),
                 DeletedJobCount = this.DataContext.JobOffers.Where(j => j.DateRemoved.HasValue).Count(),
-                MostRecentJobDate = this.DataContext.JobOffers.OrderByDescending(j => j.DateLastSeen).Select(j => j.DateLastSeen).FirstOrDefault(),
+                MostRecentJobDate = this.DataContext.JobOffers.OrderByDescending(j => j.DateLastSeen).Select(j => j.DateLastSeen).FirstOrDefault()
             };
         }
     }

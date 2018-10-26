@@ -13,8 +13,11 @@ namespace StudentServisWebScraper.Api
     {
         public static void Main(string[] args)
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("hr-HR");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("hr-HR");
+            CultureInfo hrCulture = new CultureInfo("hr-HR");
+            Thread.CurrentThread.CurrentCulture = hrCulture;
+            Thread.CurrentThread.CurrentUICulture = hrCulture;
+            CultureInfo.DefaultThreadCurrentCulture = hrCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = hrCulture;
 
             Logger logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
