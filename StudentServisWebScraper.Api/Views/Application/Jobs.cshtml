@@ -199,7 +199,7 @@
             $('#jobViewCategory').text(job.category);
             $('#jobViewText').text(job.text);
             $('#jobViewDateAdded').text(new Date(job.dateAdded + 'Z').toLocaleString());
-            $('#jobViewHourlyPay').text(job.hourlyPay + ' kn');
+            $('#jobViewHourlyPay').text(job.hourlyPay ? job.hourlyPay + ' kn' : '');
             $('#jobViewContactPhone').text(job.contactPhone);
             $('#jobViewContactEmail').text(job.contactEmail);
 
