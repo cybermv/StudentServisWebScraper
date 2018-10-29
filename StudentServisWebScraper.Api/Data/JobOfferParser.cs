@@ -82,7 +82,7 @@ namespace StudentServisWebScraper.Api.Data
         {
             Match matchedHourlyRate = Regex.Match(
                 text,
-                @"(\d+(\,\d{1,2})? *(kn|kuna))",
+                @"(\d+(\,\d{1,2})? *(kn|kun|hrk))",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
             if (!matchedHourlyRate.Success)
@@ -90,7 +90,7 @@ namespace StudentServisWebScraper.Api.Data
 
             decimal value = decimal.Parse(Regex.Replace(
                 matchedHourlyRate.Value,
-                "(kn|kuna)",
+                "(kn|kun|hrk)",
                 "",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase));
 

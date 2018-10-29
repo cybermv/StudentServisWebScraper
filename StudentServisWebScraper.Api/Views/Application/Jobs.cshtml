@@ -3,6 +3,250 @@
     ViewData["Title"] = "Jobs";
 }
 
-<h2>Jobs</h2>
+<h2>Poslovi</h2>
 
-<p>TODO: U izradi!</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="pretragaTextTbx">Pretraga po tekstu oglasa</label>
+                <input class="form-control" type="text" id="pretragaTextTbx">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="odabirKategorijaBtn">Kategorije</label>
+                <button class="form-control btn btn-info" id="odabirKategorijaBtn">Odaberi</button>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="minSatnicaNum">Minimalna satnica</label>
+                <input class="form-control" type="number" value="10" min="0" max="150" step="1" id="minSatnicaNum">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="minSatnicaNum">Prikaži neparsirane poslove</label>
+                <div class="btn-group" style="width:100%;">
+                    <button id="neparsiraniDa" type="button" class="btn btn-success disabled" style="width:50%;">Da</button>
+                    <button id="neparsiraniNe" type="button" class="btn btn-danger" style="width:50%;">Ne</button>
+                </div>
+                <input id="neparsiraniChk" type="hidden" checked="true" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="filtrirajBtn">Primjena filtra</label>
+                <button class="form-control btn btn-primary" id="filtrirajBtn"> Filtriraj!</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <table class="table table-hover table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="col-xs-8">Tekst oglasa</th>
+                    <th class="col-xs-2">Kategorija</th>
+                    <th class="col-xs-2">Satnica</th>
+                </tr>
+            </thead>
+            <tbody id="jobsTableBody">
+            </tbody>
+        </table> 
+    </div>
+</div>
+
+<div id="categoriesModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Odabir kategorija</h4>
+            </div>
+            <div class="modal-body">
+                <ul id="categoriesList" class="list-unstyled">
+                    <li>
+                        <input id="sveKategorijeChk" type="checkbox" class="checkbox-spaced" /><label for="sveKategorijeChk" class="control-label">Sve kategorije</label>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button id="categoriesModalConfirmBtn" type="button" class="btn btn-primary">Potvrdi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="jobViewModal" class="modal fade" tabindex="-1" role="dialog" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Prikaz posla</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Kategorija</h4>
+                <p id="jobViewCategory"></p>
+                <h4>Tekst posla</h4>
+                <p id="jobViewText"></p>
+                <h4>Oglas postavljen</h4>
+                <p id="jobViewDateAdded"></p>
+                <h4>Satnica</h4>
+                <p id="jobViewHourlyPay"></p>
+                <h4>Kontakt telefon</h4>
+                <p id="jobViewContactPhone"></p>
+                <h4>Kontakt e-mail</h4>
+                <p id="jobViewContactEmail"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Zatvori</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .clickable {
+        cursor: pointer;
+    }
+
+    .checkbox-spaced {
+        margin-right: 8px !important;
+    }
+</style>
+
+@section Scripts{ 
+    <script>
+
+        var requestCategories = function () {
+            $.ajax({
+                url: '/api/jobs/categories',
+                success: setUpCategories
+            });
+        }
+
+        var setUpCategories = function (data) {
+            var list = $('#categoriesList');
+
+            jQuery.each(data, function (_, item) {
+                var liItem = $('<li>');
+                liItem.append($('<input>').prop('type', 'checkbox').prop('id', 'cat_' + item.id).addClass('checkbox-spaced category-chk').data('category', item));
+                liItem.append($('<label>').addClass('control-label').text(item.friendlyName).prop('for', 'cat_' + item.id)); 
+                list.append(liItem);
+            });
+            $('#categoriesList').find('.category-chk').change('checked', onCategoryChk);
+            $('#sveKategorijeChk').prop('checked', true);
+            hideCategoriesModal();
+        }
+
+        var onSveKategorijeChk = function (e) {
+            if ($(e.target).prop('checked')) {
+                $('#categoriesList').find('.category-chk').prop('checked', false);
+            } else if (getSelectedCategoryIds().length == 0) {
+                $(e.target).prop('checked', true);
+            }
+        }
+
+        var getSelectedCategoryIds = function () {
+            var categoryChks = $('#categoriesList').find('.category-chk');
+            var categoryIds = [];
+            jQuery.each(categoryChks, function (_, item) {
+                if ($(item).prop('checked') == true) {
+                    categoryIds.push($(item).data('category').id);
+                }
+            });
+            return categoryIds;
+        };
+
+        var onCategoryChk = function () {
+            $('#sveKategorijeChk').prop('checked', getSelectedCategoryIds().length == 0);
+        };
+
+        var onFilterClick = function () {
+            var filter = {};
+
+            if ($('#pretragaTextTbx').val().length > 0) { filter.contains = $('#pretragaTextTbx').val(); }
+            if ($('#minSatnicaNum').val() > 0) { filter.minHourlyPay = $('#minSatnicaNum').val(); }
+            filter.excludeNonParsed = !$('#neparsiraniChk').prop('checked');
+            filter.categoryIds = JSON.stringify(getSelectedCategoryIds())
+            var requestUrl = decodeURIComponent('/api/jobs/filter?' + $.param(filter));
+
+            $.ajax({
+                url: '/api/jobs/filter?' + $.param(filter),
+                success: buildTable
+            });
+        }
+
+        var buildTable = function (jobsArray) {
+            var table = $('#jobsTableBody');
+            table.children().remove();
+
+            jQuery.each(jobsArray, function (_, item) {
+                var row = $('<tr>').data('job', item).addClass('clickable');
+                row.append($('<td>').text(truncate(item.text, 105)));
+                row.append($('<td>').text(item.category));
+                row.append($('<td>').text(item.hourlyPay ? item.hourlyPay + ' kn/h' : ' '));
+                
+                row.click(onRowClick);
+                table.append(row);
+            });
+        }
+
+        var onRowClick = function (e) {
+            var job = $(e.target).parent().data('job');
+
+            $('#jobViewCategory').text(job.category);
+            $('#jobViewText').text(job.text);
+            $('#jobViewDateAdded').text(new Date(job.dateAdded + 'Z').toLocaleString());
+            $('#jobViewHourlyPay').text(job.hourlyPay + ' kn');
+            $('#jobViewContactPhone').text(job.contactPhone);
+            $('#jobViewContactEmail').text(job.contactEmail);
+
+            $('#jobViewModal').modal('show');
+        }
+
+        var showCategoriesModal = function () {
+            $('#categoriesModal').modal('show');
+        }
+
+        var hideCategoriesModal = function () {
+            $('#categoriesModal').modal('hide');
+            var btnText;
+            if ($('#sveKategorijeChk').prop('checked')) {
+                btnText = 'Odaberi (sve)';
+            } else {
+                btnText = 'Odaberi (' + getSelectedCategoryIds().length + ')';
+            }
+            $('#odabirKategorijaBtn').text(btnText);
+        }
+
+        var truncate = function (s, len) {
+            if (s.length <= len) { return s; }
+            var subString = s.substr(0, len - 1);
+            return subString.substr(0, subString.lastIndexOf(' ')) + " ...";
+        };
+
+        var neparsiraniDaClick = function (e) { if ($(e.target).hasClass('disabled')) return; onNeparsiraniChange(true); }
+
+        var neparsiraniNeClick = function (e) { if ($(e.target).hasClass('disabled')) return; onNeparsiraniChange(false); }
+
+        var onNeparsiraniChange = function (daNe) {
+            $('#neparsiraniChk').prop('checked', daNe);
+            $('#neparsiraniDa').toggleClass('disabled');
+            $('#neparsiraniNe').toggleClass('disabled');
+        }
+
+        $('#filtrirajBtn').click(onFilterClick);
+        $('#neparsiraniDa').click(neparsiraniDaClick);
+        $('#neparsiraniNe').click(neparsiraniNeClick);
+        $('#odabirKategorijaBtn').click(showCategoriesModal);
+        $('#categoriesModalConfirmBtn').click(hideCategoriesModal);
+        $('#sveKategorijeChk').change('checked', onSveKategorijeChk);
+
+        $(document).ready(function () {
+            requestCategories();
+        });
+
+    </script>
+}
