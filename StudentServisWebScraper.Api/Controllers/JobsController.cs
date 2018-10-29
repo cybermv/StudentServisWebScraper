@@ -30,7 +30,7 @@ namespace StudentServisWebScraper.Api.Controllers
         {
             List<JobOffer> jobs = this.DataContext.JobOffers
                 .Where(j => !j.DateRemoved.HasValue)
-                .OrderByDescending(j => j.DateLastSeen)
+                .OrderByDescending(j => j.DateAdded)
                 .ToList();
 
             return jobs;
@@ -72,7 +72,7 @@ namespace StudentServisWebScraper.Api.Controllers
 
             List<JobOffer> jobs = this.DataContext.JobOffers
                 .Where(j => !j.DateRemoved.HasValue)
-                .OrderByDescending(j => j.DateLastSeen)
+                .OrderByDescending(j => j.DateAdded)
                 .Where(j => j.Category.Equals(category.FriendlyName, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
@@ -85,7 +85,7 @@ namespace StudentServisWebScraper.Api.Controllers
         {
             List<JobOffer> jobs = this.DataContext.JobOffers
                 .Where(j => !j.DateRemoved.HasValue)
-                .OrderByDescending(j => j.DateLastSeen)
+                .OrderByDescending(j => j.DateAdded)
                 .Where(j => j.Code == codeId)
                 .ToList();
 
@@ -106,7 +106,7 @@ namespace StudentServisWebScraper.Api.Controllers
         {
             IQueryable<JobOffer> jobs = this.DataContext.JobOffers
                 .Where(j => !j.DateRemoved.HasValue)
-                .OrderByDescending(j => j.DateLastSeen);
+                .OrderByDescending(j => j.DateAdded);
 
             if (addedAfter.HasValue)
             {
