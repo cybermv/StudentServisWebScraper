@@ -123,7 +123,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\AndroidJobOfferRepository.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderers\CustomMultiLineLabelRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />

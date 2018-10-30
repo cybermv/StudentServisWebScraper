@@ -98,7 +98,7 @@ namespace StudentServisWebScraper.Api
                     services.AddDbContext<StudentServisWebScraperDataContext>(
                         o => o.UseSqlServer(connectionString));
                     services.AddHangfire(
-                        c => c.UseStorage(new NoDeleteSqlServerStorage(connectionString)));
+                        c => c.UseSqlServerStorage(connectionString));
                     break;
 
                 case ConnectionString_Sqlite:
