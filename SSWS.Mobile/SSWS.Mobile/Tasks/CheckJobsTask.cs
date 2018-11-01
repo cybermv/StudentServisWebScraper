@@ -19,30 +19,17 @@ namespace SSWS.Mobile.Tasks
 
         public CheckJobsTask()
         {
-            this.Interval = TimeSpan.FromSeconds(5);
+            this.Interval = TimeSpan.FromSeconds(10); // TODO: move to config?
             this.idProvider = DependencyService.Get<IUserIdProvider>();
             this.settingsStore = DependencyService.Get<IUserSettingsStore>();
             this.repository = DependencyService.Get<IJobOfferRepository>();
             this.notificator = DependencyService.Get<IJobNotificator>();
         }
 
-        private int numOfJobs = 0;
-        private Random rnd = new Random();
-
         public TimeSpan Interval { get; set; }
 
         public async Task StartJob()
         {
-            int oldNumOfJobs = numOfJobs;
-            numOfJobs += rnd.Next(0, 3);
-
-            if (numOfJobs > oldNumOfJobs)
-            {
-                IJobNotificator notificator = DependencyService.Get<IJobNotificator>();
-                notificator.Notify(numOfJobs);
-            }
-            return;
-
             string userId = idProvider.Get();
             UserSettings settings = await settingsStore.LoadSettings(userId);
 

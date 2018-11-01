@@ -37,6 +37,7 @@ namespace SSWS.Mobile
 		protected override void OnResume()
 		{
             // Handle when your app resumes
+            BackgroundAggregatorService.StartBackgroundService();
         }
 	}
 }

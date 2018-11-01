@@ -30,7 +30,25 @@ namespace SSWS.Mobile.Droid
 			LoadApplication (new SSWS.Mobile.App ());
 		}
 
-        void CreateNotificationChannel()
+        protected override void OnRestart()
+        {
+            BackgroundAggregatorService.StartBackgroundService();
+            base.OnRestart();
+        }
+
+        protected override void OnPause()
+        {
+            BackgroundAggregatorService.StartBackgroundService();
+            base.OnPause();
+        }
+
+        protected override void OnResume()
+        {
+            BackgroundAggregatorService.StartBackgroundService();
+            base.OnResume();
+        }
+
+        private void CreateNotificationChannel()
         {
             if (Build.VERSION.SdkInt < BuildVersionCodes.O)
             {
