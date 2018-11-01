@@ -1,4 +1,5 @@
-﻿using SSWS.Mobile.Controls;
+﻿using Android.Content;
+using SSWS.Mobile.Controls;
 using SSWS.Mobile.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -8,6 +9,10 @@ namespace SSWS.Mobile.Droid.Renderers
 {
     public class CustomMultiLineLabelRenderer : LabelRenderer
     {
+        public CustomMultiLineLabelRenderer(Context context) : base(context)
+        {
+        }
+
         protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
         {
             base.OnElementChanged(e);

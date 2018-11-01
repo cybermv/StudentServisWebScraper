@@ -13,7 +13,7 @@
                 <Setter Property="TextColor" Value="{StaticResource HeadingTextColor}" />
             </Style>
 
-            <x:String x:Key="GeneralPageTitle">Student Servis - poslovi</x:String>
+            <x:String x:Key="GeneralPageTitle">Student Servis Poslovi</x:String>
             <x:String x:Key="StrSettings">Postavke</x:String>
             <x:String x:Key="StrSaveSettings">Spremi promjene</x:String>
             <x:String x:Key="StrCategoriesSelect">Tražene kategorije</x:String>

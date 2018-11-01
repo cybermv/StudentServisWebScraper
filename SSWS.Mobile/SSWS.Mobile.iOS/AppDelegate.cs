@@ -4,6 +4,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using Matcha.BackgroundService.iOS;
 
 namespace SSWS.Mobile.iOS
 {
@@ -22,6 +23,8 @@ namespace SSWS.Mobile.iOS
 		//
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
+            BackgroundAggregator.Init(this);
+
 			global::Xamarin.Forms.Forms.Init ();
 			LoadApplication (new SSWS.Mobile.App ());
 

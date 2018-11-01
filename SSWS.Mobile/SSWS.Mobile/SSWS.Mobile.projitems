@@ -27,6 +27,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\MockJobOfferRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\RandomUniqueUserIdProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\UserSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Notifications\IJobNotificator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tasks\CheckJobsTask.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\JobOfferCell.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1,11 +1,13 @@
 ﻿using Xamarin.Forms;
 using SSWS.Mobile.Views;
+using Matcha.BackgroundService;
+using SSWS.Mobile.Tasks;
 
 namespace SSWS.Mobile
 {
 	public partial class App : Application
 	{
-		public App ()
+		public App()
 		{
 			InitializeComponent();
 
@@ -19,19 +21,22 @@ namespace SSWS.Mobile
             }
 		}
 
-		protected override void OnStart ()
+		protected override void OnStart()
 		{
-			// Handle when your app starts
-		}
+            // Handle when your app starts
+            BackgroundAggregatorService.Add(() => new CheckJobsTask());
 
-		protected override void OnSleep ()
+            BackgroundAggregatorService.StartBackgroundService();
+        }
+
+		protected override void OnSleep()
 		{
 			// Handle when your app sleeps
 		}
 
-		protected override void OnResume ()
+		protected override void OnResume()
 		{
-			// Handle when your app resumes
-		}
+            // Handle when your app resumes
+        }
 	}
 }
