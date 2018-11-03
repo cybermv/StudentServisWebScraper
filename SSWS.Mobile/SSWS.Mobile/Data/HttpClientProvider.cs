@@ -18,6 +18,7 @@ namespace SSWS.Mobile.Data
                 NoStore = true,
                 Private = true
             };
+            // TODO - add user agent string
             return instance;
         }
     }

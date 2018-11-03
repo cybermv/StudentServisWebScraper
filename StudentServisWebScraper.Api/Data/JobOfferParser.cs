@@ -82,7 +82,7 @@ namespace StudentServisWebScraper.Api.Data
         {
             Match matchedHourlyRate = Regex.Match(
                 text,
-                @"(\d+(\,\d{1,2})? *(kn|kun|hrk))",
+                @"(\d+((\,|\.)\d{1,2})? *(kn|kun|hrk))",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
             if (!matchedHourlyRate.Success)

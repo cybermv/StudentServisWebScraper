@@ -19,7 +19,7 @@ namespace SSWS.Mobile.Tasks
 
         public CheckJobsTask()
         {
-            this.Interval = TimeSpan.FromSeconds(10); // TODO: move to config?
+            this.Interval = TimeSpan.FromMinutes(2); // TODO: move to config?
             this.idProvider = DependencyService.Get<IUserIdProvider>();
             this.settingsStore = DependencyService.Get<IUserSettingsStore>();
             this.repository = DependencyService.Get<IJobOfferRepository>();
@@ -30,6 +30,7 @@ namespace SSWS.Mobile.Tasks
 
         public async Task StartJob()
         {
+            // TODO avoid unneccessary call to server
             string userId = idProvider.Get();
             UserSettings settings = await settingsStore.LoadSettings(userId);
 
