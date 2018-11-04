@@ -59,7 +59,7 @@ namespace StudentServisWebScraper.Api.Data
 
             foreach (JobOffer offer in offers)
             {
-                int count = existingOffers.Count(eo => JobOfferEqualityComparer.Comparer()(eo, offer));
+                int count = existingOffers.Count(eo => comparer(eo, offer));
 
                 // the offer is in the database and on the website - update the last seen date
                 if (count == 1)
