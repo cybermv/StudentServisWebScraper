@@ -51,6 +51,7 @@ namespace StudentServisWebScraper.Api.Tasks
             this.Storage.Store(parsedJobs);
 
             this.Logger.LogInformation($"Scraping process Id: {this.ScrapingId} - storage done, task finished, T+{stopwatch.ElapsedMilliseconds}ms");
+            stopwatch.Stop();
         }
     }
 }

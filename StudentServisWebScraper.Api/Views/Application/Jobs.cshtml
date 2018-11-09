@@ -7,13 +7,13 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="pretragaTextTbx">Pretraga po tekstu oglasa</label>
                 <input class="form-control" type="text" id="pretragaTextTbx">
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="odabirKategorijaBtn">Kategorije</label>
                 <button class="form-control btn btn-info" id="odabirKategorijaBtn">Odaberi</button>
@@ -25,7 +25,7 @@
                 <input class="form-control" type="number" value="10" min="0" max="150" step="1" id="minSatnicaNum">
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="hidden">
             <div class="form-group">
                 <label for="minSatnicaNum">Prikaži neparsirane poslove</label>
                 <div class="btn-group" style="width:100%;">
@@ -35,7 +35,7 @@
                 <input id="neparsiraniChk" type="hidden" checked="true" />
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="filtrirajBtn">Primjena filtra</label>
                 <button class="form-control btn btn-primary" id="filtrirajBtn"> Filtriraj!</button>
@@ -140,6 +140,10 @@
             hideCategoriesModal();
         }
 
+        var onCategoryChk = function () {
+            $('#sveKategorijeChk').prop('checked', getSelectedCategoryIds().length == 0);
+        };
+
         var onSveKategorijeChk = function (e) {
             if ($(e.target).prop('checked')) {
                 $('#categoriesList').find('.category-chk').prop('checked', false);
@@ -159,10 +163,6 @@
             return categoryIds;
         };
 
-        var onCategoryChk = function () {
-            $('#sveKategorijeChk').prop('checked', getSelectedCategoryIds().length == 0);
-        };
-
         var onFilterClick = function () {
             var filter = {};
 
@@ -173,7 +173,7 @@
             var requestUrl = decodeURIComponent('/api/jobs/filter?' + $.param(filter));
 
             $.ajax({
-                url: '/api/jobs/filter?' + $.param(filter),
+                url: requestUrl,
                 success: buildTable
             });
         }
