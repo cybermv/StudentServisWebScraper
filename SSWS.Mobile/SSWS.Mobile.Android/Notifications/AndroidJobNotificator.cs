@@ -59,7 +59,7 @@ namespace SSWS.Mobile.Droid.Notifications
                           .SetAutoCancel(true) // Dismiss the notification from the notification area when the user clicks on it
                           .SetContentIntent(resultPendingIntent)
                           .SetContentTitle("Student Servis Poslovi")
-                          .SetSmallIcon(Resource.Drawable.sswsNotificationIcon)
+                          .SetSmallIcon(Resource.Drawable.ssws_icon)
                           //.SetLargeIcon(Android.Graphics.Bitmap.)
                           .SetContentText(messageText);
 

@@ -25,7 +25,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Student Servis Poslovi</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.CyberMV.StudentServisPoslovi</string>
+	<string>velenik.StudentServisPoslovi</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>CFBundleIconFiles</key>
@@ -47,6 +47,14 @@
 		<string>Icon-Small@3x.png</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen.storyboard</string>
+	<string>LaunchScreen</string>
+	<key>XSAppIconAssets</key>
+	<string>Media.xcassets/AppIcons.appiconset</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+	</array>
+	<key>XSLaunchImageAssets</key>
+	<string>Media.xcassets/LaunchImages.launchimage</string>
 </dict>
 </plist>

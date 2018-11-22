@@ -174,9 +174,6 @@
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\Drawable\Icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\Tabbar.axml" />
     <AndroidResource Include="Resources\layout\Toolbar.axml" />
     <AndroidResource Include="Resources\values\styles.xml" />
@@ -185,7 +182,7 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\Drawable\sswsNotificationIcon.png" />
+    <AndroidResource Include="Resources\Drawable\ssws_icon.png" />
   </ItemGroup>
   <Import Project="..\SSWS.Mobile\SSWS.Mobile.projitems" Label="Shared" Condition="Exists('..\SSWS.Mobile\SSWS.Mobile.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
