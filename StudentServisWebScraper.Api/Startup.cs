@@ -12,6 +12,7 @@ using System;
 using Hangfire.Dashboard;
 using StudentServisWebScraper.Api.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace StudentServisWebScraper.Api
 {
@@ -60,7 +61,12 @@ namespace StudentServisWebScraper.Api
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseStaticFiles();
+            FileExtensionContentTypeProvider contentTypes = new FileExtensionContentTypeProvider();
+            contentTypes.Mappings[".apk"] = "application/vnd.android.package-archive";
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ContentTypeProvider = contentTypes
+            });
 
             app.UseAuthentication();
 
